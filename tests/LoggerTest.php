@@ -38,9 +38,17 @@ class LoggerTest extends TestCase
     /** @test */
     public function write_method_writes_given_text_to_a_log_file(): void
     {
-        Logger::new()->write('Nice text is here', 'info');
+        Logger::new()->write('Nice text is here');
         $log_file_content = file_get_contents($this->file_name);
-        $this->assertTrue(boolval(preg_match("/Nice text is here/", $log_file_content)));
+        $this->assertRegExp('/] error: Nice text is here/', $log_file_content);
+    }
+
+    /** @test */
+    public function write_method_writes_given_text_to_a_log_file_with_different_type(): void
+    {
+        Logger::new()->write('Nice text is here', 'debug');
+        $log_file_content = file_get_contents($this->file_name);
+        $this->assertRegExp('/] debug: Nice text is here/', $log_file_content);
     }
 
     /** @test */
@@ -52,7 +60,7 @@ class LoggerTest extends TestCase
         $log_file_content = file_get_contents($this->file_name);
 
         $json = json_encode($array, JSON_PRETTY_PRINT);
-        $this->assertTrue(boolval(preg_match("/$json/", $log_file_content)));
+        $this->assertRegExp("/$json/", $log_file_content);
     }
 
     /** @test */
@@ -64,7 +72,7 @@ class LoggerTest extends TestCase
         $log_file_content = file_get_contents($this->file_name);
 
         $json = json_encode($obj, JSON_PRETTY_PRINT);
-        $this->assertTrue(!! preg_match("/$json/", $log_file_content));
+        $this->assertRegExp("/$json/", $log_file_content);
     }
 
     /** @test */
