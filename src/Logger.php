@@ -29,16 +29,21 @@ final class Logger
         return static::$instance ?? (static::$instance = new static());
     }
 
-    public function setPath(string $path): void
+    /**
+     * @param string $path
+     * @return $this
+     */
+    public function setPath(string $path): self
     {
         $this->file_path = $path;
+        return $this;
     }
 
     /**
      * @param array|object|string|bool|float|int|null mixed $text
-     * @param string $log_type
+     * @param string|null $log_type
      */
-    public function write($text, string $log_type): void
+    public function write($text, ?string $log_type = 'error'): void
     {
         if (is_float($text) || is_int($text)) {
             $text = strval($text);
