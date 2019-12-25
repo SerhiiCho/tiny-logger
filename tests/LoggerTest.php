@@ -28,6 +28,14 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
+    public function setPath_changes_file_path(): void
+    {
+        Logger::new()->setPath('different.log')->write('Some log message goes here');
+        $this->assertFileExists('different.log');
+        @unlink('different.log');
+    }
+
+    /** @test */
     public function writeLog_writes_given_text_to_a_log_file(): void
     {
         Logger::new()->write('Nice text is here', 'info');
