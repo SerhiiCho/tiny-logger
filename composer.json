@@ -20,7 +20,10 @@
     "autoload": {
         "psr-4": {
             "Serhii\\TinyLogger\\": "src"
-        }
+        },
+        "files": [
+            "logger.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
