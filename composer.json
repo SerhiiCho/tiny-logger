@@ -1,0 +1,31 @@
+{
+    "name": "serhii/tiny-logger",
+    "description": "Light weight composer package for file logging in PHP7.",
+    "homepage": "https://github.com/SerhiiCho/tiny-logger",
+    "keywords": ["logger", "library"],
+    "type": "library",
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SerhiiCho",
+            "email": "serhiicho@protonmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Serhii\\TinyLogger\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "dev"
+}
