@@ -36,7 +36,7 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
-    public function writeLog_writes_given_text_to_a_log_file(): void
+    public function write_method_writes_given_text_to_a_log_file(): void
     {
         Logger::new()->write('Nice text is here', 'info');
         $log_file_content = file_get_contents($this->file_name);
@@ -44,7 +44,7 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
-    public function writeLog_can_except_array(): void
+    public function write_method_can_except_array(): void
     {
         $array = ['hello' => 'world'];
         Logger::new()->write($array, 'info');
@@ -56,7 +56,7 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
-    public function writeLog_can_except_object(): void
+    public function write_method_can_except_object(): void
     {
         $obj = (object) ['hello' => 'world'];
         Logger::new()->write($obj, 'info');
