@@ -58,4 +58,12 @@ class LoggerTest extends TestCase
         $json = json_encode($obj, JSON_PRETTY_PRINT);
         $this->assertTrue(!! preg_match("/$json/", $log_file_content));
     }
+
+    /** @test */
+    public function function_creates_log_file(): void
+    {
+        $this->assertFileNotExists($this->file_name);
+        tiny_log('Some log message goes here');
+        $this->assertFileExists($this->file_name);
+    }
 }
