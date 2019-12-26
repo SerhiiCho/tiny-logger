@@ -2,6 +2,8 @@
 
 namespace Serhii\TinyLogger;
 
+use Exception;
+
 final class Logger
 {
     /**
@@ -63,6 +65,10 @@ final class Logger
 
     private function createFileIfNotExist(): void
     {
+        if ($this->file_path === null) {
+            throw new Exception('File path for logging output is not specified');
+        }
+
         if (!file_exists($this->file_path)) {
             file_put_contents($this->file_path, '');
         }
