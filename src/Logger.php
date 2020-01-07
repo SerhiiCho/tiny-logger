@@ -52,7 +52,7 @@ final class Logger
         }
 
         if (is_array($text) || is_object($text)) {
-            $text = json_encode($text, JSON_PRETTY_PRINT);
+            $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
         }
 
         $timestamp = date('Y-m-d H:i:s');
