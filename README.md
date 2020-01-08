@@ -9,7 +9,9 @@ Light weight composer package for file logging in PHP7.
 
 ## Set file path
 
-For setting up the path for all log files you can call `setPath` method in your bootstrap file. Logger is a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) class and `new()` method returns an instance of it.
+For setting up the path for all log files you can call `setPath` method in your bootstrap file. Logger is a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) class and `new()` method returns an instance of it. 
+
+> Please remember! If you want to use logger in a cron scripts or WordPress hook, you need to call `setPath()` at the very first step of the script execution, it means that your project might have multiple places where you need to set path for your logs. If you don't want to call `setPath()` you can just pass the path to a `tiny_log()` function as a third argument. _See example below in Usage section._
 
 ```php
 \Serhii\TinyLogger\Logger::new()->setPath('logs/errors.log');
@@ -36,6 +38,9 @@ Logger::new()->setPath('logs/debug.log')->write('Some error message', 'debug');
 ````
 
 ## Get started
+
+
+To install all php dependencies you need to have [Composer PHP package manager](https://getcomposer.org) installed on your machine. Then you need to run the command below in your root directory of the project.
 
 ```bash
 composer require serhii/tiny-logger
