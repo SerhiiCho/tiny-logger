@@ -17,7 +17,9 @@ final class Logger
     private static $instance;
 
     private function __construct() {}
+
     private function __clone() {}
+
     private function __wakeup() {}
 
     /**
@@ -45,9 +47,10 @@ final class Logger
      * You can pass almost any type as the first argument and method will
      * figure out what it needs to do with this data in order to save it
      * into a file.
-     * 
+     *
      * @param array|object|string|bool|float|int|null mixed $text
      * @param string|null $log_type
+     * @throws \Exception
      */
     public function write($text, ?string $log_type = 'error'): void
     {
@@ -66,9 +69,12 @@ final class Logger
         file_put_contents($this->file_path, $insert, FILE_APPEND);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function createFileIfNotExist(): void
     {
-        if ($this->file_path === null) {
+        if (is_null($this->file_path)) {
             throw new Exception('File path for logging output is not specified');
         }
 
