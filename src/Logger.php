@@ -82,5 +82,23 @@ final class Logger
             file_put_contents($this->file_path, '');
         }
     }
+
+    /**
+     * In this context passing by reference is not critical. There is no point to
+     * create new variable in memory for that simple task.
+     *
+     * @param array|object|string|bool|float|int $text
+     * @return void
+     */
+    private function prepareTextForLogging(&$text): void
+    {
+        if (is_float($text) || is_int($text)) {
+            $text = (string) $text;
+        }
+
+        if (is_array($text) || is_object($text)) {
+            $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
 
