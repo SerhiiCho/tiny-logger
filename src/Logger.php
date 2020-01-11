@@ -23,7 +23,7 @@ final class Logger
     private function __wakeup() {}
 
     /**
-     * Get class instance
+     * Get singleton instance of the class.
      *
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
      * @return self
@@ -34,6 +34,10 @@ final class Logger
     }
 
     /**
+     * Set path for logging output, if file doesn't exists it will be created.
+     * It will not create directories, so make sure you have directories in
+     * provided path.
+     *
      * @param string $path
      * @return $this
      */
