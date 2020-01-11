@@ -42,21 +42,24 @@ final class Logger
     }
 
     /**
+     * You can pass almost any type as the first argument and method will
+     * figure out what it needs to do with this data in order to save it
+     * into a file.
+     * 
      * @param array|object|string|bool|float|int|null mixed $text
      * @param string|null $log_type
      */
     public function write($text, ?string $log_type = 'error'): void
     {
         if (is_float($text) || is_int($text)) {
-            $text = strval($text);
+            $text = (string) $text;
         }
 
         if (is_array($text) || is_object($text)) {
             $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
         }
 
-        $timestamp = date('Y-m-d H:i:s');
-        $insert = "[$timestamp] {$log_type}: {$text}\n";
+        $insert = sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL);
 
         $this->createFileIfNotExist();
 
