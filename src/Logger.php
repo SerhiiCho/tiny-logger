@@ -54,19 +54,14 @@ final class Logger
      */
     public function write($text, ?string $log_type = 'error'): void
     {
-        if (is_float($text) || is_int($text)) {
-            $text = (string) $text;
-        }
-
-        if (is_array($text) || is_object($text)) {
-            $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
-        }
-
-        $insert = sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL);
-
+        $this->prepareTextForLogging($text);
         $this->createFileIfNotExist();
 
-        file_put_contents($this->file_path, $insert, FILE_APPEND);
+        file_put_contents(
+            $this->file_path,
+            sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL),
+            FILE_APPEND
+        );
     }
 
     /**
