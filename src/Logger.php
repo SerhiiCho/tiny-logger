@@ -84,7 +84,7 @@ final class Logger
 
     /**
      * In this context passing by reference is not critical. There is no point to
-     * create new variable in memory for that simple task.
+     * create a new variable in memory for that simple task.
      *
      * @param array|object|string|bool|float|int $text
      * @return void
