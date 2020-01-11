@@ -17,11 +17,13 @@ final class Logger
     private static $instance;
 
     private function __construct() {}
+
     private function __clone() {}
+
     private function __wakeup() {}
 
     /**
-     * Get class instance
+     * Get singleton instance of the class.
      *
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
      * @return self
@@ -32,6 +34,10 @@ final class Logger
     }
 
     /**
+     * Set path for logging output, if file doesn't exists it will be created.
+     * It will not create directories, so make sure you have directories in
+     * provided path.
+     *
      * @param string $path
      * @return $this
      */
@@ -45,11 +51,45 @@ final class Logger
      * You can pass almost any type as the first argument and method will
      * figure out what it needs to do with this data in order to save it
      * into a file.
-     * 
-     * @param array|object|string|bool|float|int|null mixed $text
+     *
+     * @param array|object|string|bool|float|int $text
      * @param string|null $log_type
+     * @throws \Exception
      */
     public function write($text, ?string $log_type = 'error'): void
+    {
+        $this->prepareTextForLogging($text);
+        $this->createFileIfNotExist();
+
+        file_put_contents(
+            $this->file_path,
+            sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL),
+            FILE_APPEND
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function createFileIfNotExist(): void
+    {
+        if (is_null($this->file_path)) {
+            throw new Exception('File path for logging output is not specified');
+        }
+
+        if (!file_exists($this->file_path)) {
+            file_put_contents($this->file_path, '');
+        }
+    }
+
+    /**
+     * In this context passing by reference is not critical. There is no point to
+     * create new variable in memory for that simple task.
+     *
+     * @param array|object|string|bool|float|int $text
+     * @return void
+     */
+    private function prepareTextForLogging(&$text): void
     {
         if (is_float($text) || is_int($text)) {
             $text = (string) $text;
@@ -57,23 +97,6 @@ final class Logger
 
         if (is_array($text) || is_object($text)) {
             $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
-        }
-
-        $insert = sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL);
-
-        $this->createFileIfNotExist();
-
-        file_put_contents($this->file_path, $insert, FILE_APPEND);
-    }
-
-    private function createFileIfNotExist(): void
-    {
-        if ($this->file_path === null) {
-            throw new Exception('File path for logging output is not specified');
-        }
-
-        if (!file_exists($this->file_path)) {
-            file_put_contents($this->file_path, '');
         }
     }
 }
