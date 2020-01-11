@@ -48,7 +48,7 @@ final class Logger
      * figure out what it needs to do with this data in order to save it
      * into a file.
      *
-     * @param array|object|string|bool|float|int|null mixed $text
+     * @param array|object|string|bool|float|int $text
      * @param string|null $log_type
      * @throws \Exception
      */
