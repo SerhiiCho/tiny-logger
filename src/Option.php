@@ -8,42 +8,25 @@ final class Option
 {
     const AVAILABLE_OPTIONS = ['pos'];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $input_options;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $prepared_options = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $error_type;
 
-    /**
-     * Option constructor.
-     *
-     * @param string $input_options
-     */
     public function __construct(string $input_options)
     {
         $this->input_options = $input_options;
     }
 
-    /**
-     * @return string
-     */
     public function getErrorType(): string
     {
         return $this->error_type;
     }
 
-    /**
-     * @return self
-     */
     public function prepare(): self
     {
         foreach (explode('|', $this->input_options) as $option) {
@@ -58,12 +41,6 @@ final class Option
         return $this;
     }
 
-    /**
-     * Check if option exists in the list of options.
-     *
-     * @param string $option_name
-     * @return bool
-     */
     public function has(string $option_name): bool
     {
         return in_array($option_name, $this->prepared_options);

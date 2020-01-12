@@ -6,14 +6,10 @@ use Exception;
 
 final class Logger
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $file_path;
 
-    /**
-     * @var self|null
-     */
+    /** @var self|null */
     private static $instance;
 
     private function __construct() {}
@@ -36,9 +32,11 @@ final class Logger
     /**
      * Set path for logging output, if file doesn't exists it will be created.
      * It will not create directories, so make sure you have directories in
-     * provided path.
+     * the provided path.
      *
-     * @param string $path
+     * @param string $path Absolute or relative path to a directory where log file
+     * will be created.
+     *
      * @return $this
      */
     public function setPath(string $path): self
@@ -52,9 +50,14 @@ final class Logger
      * figure out what it needs to do with this data in order to save it
      * into a file.
      *
-     * @param array|object|string|bool|float|int $text
-     * @param string|null $options
-     * @throws \Exception
+     * @param mixed $text Text that will be written as a context.
+     * @param string|null $options Options can be log type like "error",
+     * "debug", "warning" etc... Also you can pass option "pos".
+     * To pass both option and log type separate them with pipe character
+     * like that: "pos|info".
+     *
+     * @throws \Exception Throws if file path wasn't wasn't provided by setPath()
+     * method. Make sure that setPath() is called before the logging happens.
      */
     public function write($text, ?string $options = 'error'): void
     {
@@ -64,7 +67,7 @@ final class Logger
     }
 
     /**
-     * @throws \Exception
+     * @throws \Exception Throws if file path wasn't wasn't provided by setPath() method.
      */
     private function createFileIfNotExist(): void
     {
@@ -77,11 +80,6 @@ final class Logger
         }
     }
 
-    /**
-     * @param \Serhii\TinyLogger\Text $text
-     * @param \Serhii\TinyLogger\Option $option
-     * @return string
-     */
     private function prepareTextForLogging(Text $text, Option $option): string
     {
         $text->prepare();
