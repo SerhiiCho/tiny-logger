@@ -59,7 +59,7 @@ tiny_log('Some error message', 'option|info'); // with error type 'info'
 
 ```text
 [2020-01-12 04:09:16] info: Some log message goes here
->>> /var/www/html/app/Services/App.php in Services\App on line: 77.
+>>> /var/www/html/app/Services/App.php on line: 77.
 ```
 
 ## Get started

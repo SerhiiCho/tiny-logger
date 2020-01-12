@@ -53,19 +53,13 @@ final class Logger
      * into a file.
      *
      * @param array|object|string|bool|float|int $text
-     * @param string|null $log_type
+     * @param string|null $options
      * @throws \Exception
      */
-    public function write($text, ?string $log_type = 'error'): void
+    public function write($text, ?string $options = 'error'): void
     {
-        $this->prepareTextForLogging($text);
         $this->createFileIfNotExist();
-
-        file_put_contents(
-            $this->file_path,
-            sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL),
-            FILE_APPEND
-        );
+        file_put_contents($this->file_path, $this->prepareTextForLogging($text, $options), FILE_APPEND);
     }
 
     /**
@@ -83,21 +77,42 @@ final class Logger
     }
 
     /**
-     * In this context passing by reference is not critical. There is no point to
-     * create a new variable in memory for that simple task.
-     *
      * @param array|object|string|bool|float|int $text
-     * @return void
+     * @param string|null $options
+     * @return string
      */
-    private function prepareTextForLogging(&$text): void
+    private function prepareTextForLogging($text, ?string $options = 'error'): string
     {
         if (is_float($text) || is_int($text)) {
-            $text = (string) $text;
+            return (string) $text;
         }
 
         if (is_array($text) || is_object($text)) {
-            $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            return json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
         }
+
+        $error_type = 'error';
+        $available_options = ['pos'];
+        $result_options = [];
+        $second_line = '';
+
+        foreach (explode('|', $options) as $option) {
+            if (in_array($option, $available_options)) {
+                $result_options[] = $option;
+                continue;
+            }
+
+            $error_type = $option;
+        }
+
+       if (in_array('pos', $result_options)) {
+            $trace = debug_backtrace()[1];
+            $second_line = ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
+        }
+
+        $date = date('Y-m-d H:i:s');
+
+        return "[$date] $error_type: $text" . PHP_EOL . $second_line;
     }
 }
 
