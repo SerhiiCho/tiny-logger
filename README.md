@@ -55,7 +55,7 @@ tiny_log('Some error message', 'option|info'); // with error type 'info'
 
 #### Available options
 
-- `pos` - Show position of the logger. In which class, file and on what line number it is. It is useful when you're debugging, to not forget where you put your logger. See the example of output:
+- `pos` - Show position of the logger. In which file and on what line number it is. It is useful when you're debugging, to not forget where you put your logger. See the example of output:
 
 ```text
 [2020-01-12 04:09:16] info: Some log message goes here
