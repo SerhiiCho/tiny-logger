@@ -51,5 +51,16 @@ final class Text
     {
         return $this->prepared_text;
     }
+
+    public function getTraceLine(): string
+    {
+        $trace = debug_backtrace()[2];
+        return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
+    }
+
+    public function getDateBlock(): string
+    {
+        return '[' . date('Y-m-d H:i:s') . ']';
+    }
 }
 

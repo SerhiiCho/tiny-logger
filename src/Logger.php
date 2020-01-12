@@ -87,12 +87,10 @@ final class Logger
         $text->prepare();
         $option->prepare();
 
-        $date = date('Y-m-d H:i:s');
-        $result = "[$date] {$option->getErrorType()}: {$text->getPreparedText()}" . PHP_EOL;
+        $result = "{$text->getDateBlock()} {$option->getErrorType()}: {$text->getPreparedText()}" . PHP_EOL;
 
         if ($option->has('pos')) {
-            $trace = debug_backtrace()[1];
-            return $result . ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
+            return $result . $text->getTraceLine();
         }
 
         return $result;
