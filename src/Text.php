@@ -40,6 +40,11 @@ final class Text
     public function getTraceLine(): string
     {
         $trace = debug_backtrace()[2];
+
+        if (!!preg_match('!/logger\.php!', $trace['file'])) {
+            $trace = debug_backtrace()[3];
+        }
+
         return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
     }
 
