@@ -16,7 +16,7 @@ final class Option
     /**
      * @var array
      */
-    private $converted_options = [];
+    private $prepared_options = [];
 
     /**
      * @var string
@@ -48,7 +48,7 @@ final class Option
     {
         foreach (explode('|', $this->input_options) as $option) {
             if (in_array($option, self::AVAILABLE_OPTIONS)) {
-                $this->converted_options[] = $option;
+                $this->prepared_options[] = $option;
                 continue;
             }
 
@@ -66,7 +66,7 @@ final class Option
      */
     public function has(string $option_name): bool
     {
-        return in_array($option_name, $this->converted_options);
+        return in_array($option_name, $this->prepared_options);
     }
 }
 

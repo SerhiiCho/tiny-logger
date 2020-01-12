@@ -59,7 +59,8 @@ final class Logger
     public function write($text, ?string $options = 'error'): void
     {
         $this->createFileIfNotExist();
-        file_put_contents($this->file_path, $this->prepareTextForLogging($text, $options), FILE_APPEND);
+        $input = $this->prepareTextForLogging(new Text($text), new Option($options));
+        file_put_contents($this->file_path, $input, FILE_APPEND);
     }
 
     /**
@@ -77,28 +78,21 @@ final class Logger
     }
 
     /**
-     * @param array|object|string|bool|float|int $text
-     * @param string|null $options
+     * @param \Serhii\TinyLogger\Text $text
+     * @param \Serhii\TinyLogger\Option $option
      * @return string
      */
-    private function prepareTextForLogging($text, ?string $options = 'error'): string
+    private function prepareTextForLogging(Text $text, Option $option): string
     {
-        if (is_float($text) || is_int($text)) {
-            return (string)$text;
-        }
-
-        if (is_array($text) || is_object($text)) {
-            return json_encode($text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        }
-
-        $option = (new Option($options))->prepare();
+        $text->prepare();
+        $option->prepare();
 
         $date = date('Y-m-d H:i:s');
-        $result = "[$date] {$option->getErrorType()}: $text".PHP_EOL;
+        $result = "[$date] {$option->getErrorType()}: {$text->getPreparedText()}" . PHP_EOL;
 
         if ($option->has('pos')) {
             $trace = debug_backtrace()[1];
-            return $result.">>> {$trace['file']} on line: {$trace['line']}".PHP_EOL;
+            return $result . ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
         }
 
         return $result;
