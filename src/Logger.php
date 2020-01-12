@@ -6,14 +6,10 @@ use Exception;
 
 final class Logger
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     private $file_path;
 
-    /**
-     * @var self|null
-     */
+    /** @var self|null */
     private static $instance;
 
     private function __construct() {}
@@ -36,9 +32,11 @@ final class Logger
     /**
      * Set path for logging output, if file doesn't exists it will be created.
      * It will not create directories, so make sure you have directories in
-     * provided path.
+     * the provided path.
      *
-     * @param string $path
+     * @param string $path Absolute or relative path to a directory where log file
+     * will be created.
+     *
      * @return $this
      */
     public function setPath(string $path): self
@@ -52,24 +50,24 @@ final class Logger
      * figure out what it needs to do with this data in order to save it
      * into a file.
      *
-     * @param array|object|string|bool|float|int $text
-     * @param string|null $log_type
-     * @throws \Exception
+     * @param mixed $text Text that will be written as a context.
+     * @param string|null $options Options can be log type like "error",
+     * "debug", "warning" etc... Also you can pass option "pos".
+     * To pass both option and log type separate them with pipe character
+     * like that: "pos|info".
+     *
+     * @throws \Exception Throws if file path wasn't wasn't provided by setPath()
+     * method. Make sure that setPath() is called before the logging happens.
      */
-    public function write($text, ?string $log_type = 'error'): void
+    public function write($text, ?string $options = 'error'): void
     {
-        $this->prepareTextForLogging($text);
         $this->createFileIfNotExist();
-
-        file_put_contents(
-            $this->file_path,
-            sprintf('[%s] %s: %s%s', date('Y-m-d H:i:s'), $log_type, $text, PHP_EOL),
-            FILE_APPEND
-        );
+        $input = $this->prepareTextForLogging(new Text($text), new Option($options));
+        file_put_contents($this->file_path, $input, FILE_APPEND);
     }
 
     /**
-     * @throws \Exception
+     * @throws \Exception Throws if file path wasn't wasn't provided by setPath() method.
      */
     private function createFileIfNotExist(): void
     {
@@ -82,22 +80,18 @@ final class Logger
         }
     }
 
-    /**
-     * In this context passing by reference is not critical. There is no point to
-     * create a new variable in memory for that simple task.
-     *
-     * @param array|object|string|bool|float|int $text
-     * @return void
-     */
-    private function prepareTextForLogging(&$text): void
+    private function prepareTextForLogging(Text $text, Option $option): string
     {
-        if (is_float($text) || is_int($text)) {
-            $text = (string) $text;
+        $text->prepare();
+        $option->prepare();
+
+        $result = "{$text->getDateBlock()} {$option->getErrorType()}: {$text->getPreparedText()}" . PHP_EOL;
+
+        if ($option->has('pos')) {
+            return $result . $text->getTraceLine();
         }
 
-        if (is_array($text) || is_object($text)) {
-            $text = json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
-        }
+        return $result;
     }
 }
 
