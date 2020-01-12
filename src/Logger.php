@@ -84,35 +84,24 @@ final class Logger
     private function prepareTextForLogging($text, ?string $options = 'error'): string
     {
         if (is_float($text) || is_int($text)) {
-            return (string) $text;
+            return (string)$text;
         }
 
         if (is_array($text) || is_object($text)) {
-            return json_encode($text, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            return json_encode($text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }
 
-        $error_type = 'error';
-        $available_options = ['pos'];
-        $result_options = [];
-        $second_line = '';
-
-        foreach (explode('|', $options) as $option) {
-            if (in_array($option, $available_options)) {
-                $result_options[] = $option;
-                continue;
-            }
-
-            $error_type = $option;
-        }
-
-       if (in_array('pos', $result_options)) {
-            $trace = debug_backtrace()[1];
-            $second_line = ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
-        }
+        $option = (new Option($options))->prepare();
 
         $date = date('Y-m-d H:i:s');
+        $result = "[$date] {$option->getErrorType()}: $text".PHP_EOL;
 
-        return "[$date] $error_type: $text" . PHP_EOL . $second_line;
+        if ($option->has('pos')) {
+            $trace = debug_backtrace()[1];
+            return $result.">>> {$trace['file']} on line: {$trace['line']}".PHP_EOL;
+        }
+
+        return $result;
     }
 }
 
