@@ -36,6 +36,14 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
+    public function you_can_use_sprintf_syntax_int_insetPath_method(): void
+    {
+        Logger::new()->setPath('%serent%s', 'diff', '.log')->write('Some log message goes here');
+        $this->assertFileExists('different.log');
+        @unlink('different.log');
+    }
+
+    /** @test */
     public function write_method_writes_given_text_to_a_log_file(): void
     {
         Logger::new()->write('Nice text is here');

@@ -35,13 +35,15 @@ final class Logger
      * the provided path.
      *
      * @param string $path Absolute or relative path to a directory where log file
-     * will be created.
+     * will be created. Sprintf syntax is allowed for this method like so:
+     * setPath('%s/storage/logs/logs.log', '/var/www/html')
      *
+     * @param array $params
      * @return $this
      */
-    public function setPath(string $path): self
+    public function setPath(string $path, ...$params): self
     {
-        $this->file_path = $path;
+        $this->file_path = sprintf($path, ...$params);
         return $this;
     }
 
