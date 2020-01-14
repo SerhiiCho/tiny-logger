@@ -24,7 +24,7 @@ final class Option
 
     public function getErrorType(): string
     {
-        return $this->error_type;
+        return $this->error_type ?? 'error';
     }
 
     public function prepare(): self
