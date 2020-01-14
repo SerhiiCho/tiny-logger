@@ -68,4 +68,16 @@ class OptionTest extends TestCase
         $this->assertNotRegExp("$regex", $log_file_content);
         $this->assertNotRegExp('!>>>!', $log_file_content);
     }
+
+    /** @test */
+    public function you_can_pass_option_without_error_type(): void
+    {
+        tiny_log('Nice text is here', 'pos');
+        $line_number = __LINE__ - 1;
+
+        $log_file_content = file_get_contents($this->file_name);
+
+        $regex = sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
+        $this->assertRegExp("$regex", $log_file_content);
+    }
 }
