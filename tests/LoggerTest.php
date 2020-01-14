@@ -98,7 +98,6 @@ class LoggerTest extends TestCase
         Logger::new()->error('Some log message goes here');
         $this->assertFileExists($this->file_name);
 
-        tiny_log()-error('nice');
         $this->assertTrue(method_exists(Logger::new(), 'emergency'));
         $this->assertTrue(method_exists(Logger::new(), 'alert'));
         $this->assertTrue(method_exists(Logger::new(), 'critical'));
