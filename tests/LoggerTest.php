@@ -90,4 +90,22 @@ class LoggerTest extends TestCase
         tiny_log('Some log message goes here');
         $this->assertFileExists($this->file_name);
     }
+
+    /** @test */
+    public function Logger_implements_psr_logger_interface(): void
+    {
+        $this->assertFileNotExists($this->file_name);
+        Logger::new()->error('Some log message goes here');
+        $this->assertFileExists($this->file_name);
+
+        $this->assertTrue(method_exists(Logger::new(), 'emergency'));
+        $this->assertTrue(method_exists(Logger::new(), 'alert'));
+        $this->assertTrue(method_exists(Logger::new(), 'critical'));
+        $this->assertTrue(method_exists(Logger::new(), 'error'));
+        $this->assertTrue(method_exists(Logger::new(), 'warning'));
+        $this->assertTrue(method_exists(Logger::new(), 'notice'));
+        $this->assertTrue(method_exists(Logger::new(), 'info'));
+        $this->assertTrue(method_exists(Logger::new(), 'debug'));
+        $this->assertTrue(method_exists(Logger::new(), 'log'));
+    }
 }
