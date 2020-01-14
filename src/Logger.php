@@ -3,8 +3,9 @@
 namespace Serhii\TinyLogger;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 
-final class Logger
+final class Logger implements LoggerInterface
 {
     /** @var string|null */
     private $file_path;
@@ -95,5 +96,76 @@ final class Logger
 
         return $result;
     }
-}
 
+    /**
+     * @inheritDoc
+     */
+    public function emergency($message, array $context = [])
+    {
+        $this->write($message, 'emergency');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function alert($message, array $context = [])
+    {
+        $this->write($message, 'alert');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function critical($message, array $context = [])
+    {
+        $this->write($message, 'critical');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function error($message, array $context = [])
+    {
+        $this->write($message, 'error');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function warning($message, array $context = [])
+    {
+        $this->write($message, 'warning');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function notice($message, array $context = [])
+    {
+        $this->write($message, 'notice');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function info($message, array $context = [])
+    {
+        $this->write($message, 'info');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function debug($message, array $context = [])
+    {
+        $this->write($message, 'degug');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function log($level, $message, array $context = [])
+    {
+        $this->write($message, 'log');
+    }
+}
