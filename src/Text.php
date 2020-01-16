@@ -34,7 +34,7 @@ final class Text
 
     public function getPreparedText(): string
     {
-        return $this->prepared_text;
+        return $this->prepared_text ?? 'null';
     }
 
     public function getTraceLine(): string
