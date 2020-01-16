@@ -47,8 +47,10 @@ class LoggerTest extends TestCase
     public function write_method_writes_given_text_to_a_log_file(): void
     {
         Logger::new()->write('Nice text is here');
+        Logger::new()->write(null);
         $log_file_content = file_get_contents($this->file_name);
         $this->assertRegExp('/] error: Nice text is here/', $log_file_content);
+        $this->assertRegExp('/null/', $log_file_content);
     }
 
     /** @test */
