@@ -2,8 +2,12 @@
 
 namespace Serhii\Tests;
 
-use PHPUnit\Framework\TestCase;
+use Error;
+use Exception;
+use TypeError;
+use ParseError;
 use Serhii\TinyLogger\Logger;
+use PHPUnit\Framework\TestCase;
 
 class LoggerTest extends TestCase
 {
@@ -109,5 +113,61 @@ class LoggerTest extends TestCase
         $this->assertTrue(method_exists(Logger::new(), 'info'));
         $this->assertTrue(method_exists(Logger::new(), 'debug'));
         $this->assertTrue(method_exists(Logger::new(), 'log'));
+    }
+
+    /** @test */
+    public function write_method_can_except_exception(): void
+    {
+        try {
+            throw new Exception('This is an exception');
+        } catch (Exception $e) {
+            Logger::new()->write($e);
+        }
+
+        $log_file_content = file_get_contents($this->file_name);
+
+        $this->assertRegExp("/This is an exception/", $log_file_content);
+    }
+
+    /** @test */
+    public function write_method_can_except_error(): void
+    {
+        try {
+            throw new Error('This is an error');
+        } catch (Error $e) {
+            Logger::new()->write($e);
+        }
+
+        $log_file_content = file_get_contents($this->file_name);
+
+        $this->assertRegExp("/This is an error/", $log_file_content);
+    }
+
+    /** @test */
+    public function write_method_can_except_parse_error(): void
+    {
+        try {
+            throw new ParseError('This is a parse error');
+        } catch (Error $e) {
+            Logger::new()->write($e);
+        }
+
+        $log_file_content = file_get_contents($this->file_name);
+
+        $this->assertRegExp("/This is a parse error/", $log_file_content);
+    }
+
+    /** @test */
+    public function write_method_can_except_type_error(): void
+    {
+        try {
+            throw new TypeError('This is a type error');
+        } catch (Error $e) {
+            Logger::new()->write($e);
+        }
+
+        $log_file_content = file_get_contents($this->file_name);
+
+        $this->assertRegExp("/This is a type error/", $log_file_content);
     }
 }
