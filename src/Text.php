@@ -2,6 +2,8 @@
 
 namespace Serhii\TinyLogger;
 
+use Throwable;
+
 final class Text
 {
     /** @var mixed */
@@ -17,6 +19,12 @@ final class Text
 
     public function prepare(): self
     {
+        if ($this->input_text instanceof Throwable) {
+            $e = $this->input_text;
+            $this->prepared_text = "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n{$e->getTraceAsString()}";
+            return $this;
+        }
+
         if (is_float($this->input_text) || is_int($this->input_text)) {
             $this->prepared_text = (string)$this->input_text;
             return $this;
