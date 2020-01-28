@@ -53,7 +53,9 @@ final class Logger implements LoggerInterface
      * figure out what it needs to do with this data in order to save it
      * into a file.
      *
-     * @param mixed $text Text that will be written as a context.
+     * @param mixed $text Text that will be written as a context. Can be any type.
+     * If Throwable object is passed, it will be logged with whole stack trace,
+     * error message and line number.
      * @param string|null $options Options can be log type like "error",
      * "debug", "warning" etc... Also you can pass option "pos".
      * To pass both option and log type separate them with pipe character
