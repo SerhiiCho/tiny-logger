@@ -98,7 +98,7 @@ class LoggerTest extends TestCase
     }
 
     /** @test */
-    public function Logger_implements_psr_logger_interface(): void
+    public function Logger_has_method_helpers(): void
     {
         $this->assertFileNotExists($this->file_name);
         Logger::new()->error('Some log message goes here');
@@ -112,7 +112,6 @@ class LoggerTest extends TestCase
         $this->assertTrue(method_exists(Logger::new(), 'notice'));
         $this->assertTrue(method_exists(Logger::new(), 'info'));
         $this->assertTrue(method_exists(Logger::new(), 'debug'));
-        $this->assertTrue(method_exists(Logger::new(), 'log'));
     }
 
     /** @test */

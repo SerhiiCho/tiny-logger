@@ -3,9 +3,8 @@
 namespace Serhii\TinyLogger;
 
 use Exception;
-use Psr\Log\LoggerInterface;
 
-final class Logger implements LoggerInterface
+final class Logger
 {
     /** @var string|null */
     private $file_path;
@@ -100,74 +99,66 @@ final class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function emergency($message, array $context = [])
+    public function emergency($message): void
     {
         $this->write($message, 'emergency');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function alert($message, array $context = [])
+    public function alert($message): void
     {
         $this->write($message, 'alert');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function critical($message, array $context = [])
+    public function critical($message): void
     {
         $this->write($message, 'critical');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function error($message, array $context = [])
+    public function error($message): void
     {
         $this->write($message, 'error');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function warning($message, array $context = [])
+    public function warning($message): void
     {
         $this->write($message, 'warning');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function notice($message, array $context = [])
+    public function notice($message): void
     {
         $this->write($message, 'notice');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function info($message, array $context = [])
+    public function info($message): void
     {
         $this->write($message, 'info');
     }
 
     /**
-     * @inheritDoc
+     * @param mixed $message
      */
-    public function debug($message, array $context = [])
+    public function debug($message): void
     {
         $this->write($message, 'degug');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function log($level, $message, array $context = [])
-    {
-        $this->write($message, 'log');
     }
 }
