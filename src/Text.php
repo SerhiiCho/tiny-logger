@@ -42,6 +42,14 @@ final class Text
 
     public function getPreparedText(): string
     {
+        if ($this->prepared_text === true) {
+            return 'true';
+        }
+
+        if ($this->prepared_text === false) {
+            return 'false';
+        }
+
         return $this->prepared_text ?? 'null';
     }
 
