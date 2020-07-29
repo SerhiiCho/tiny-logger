@@ -169,4 +169,28 @@ class LoggerTest extends TestCase
 
         $this->assertRegExp("/This is a type error/", $log_file_content);
     }
+
+    /** @test */
+    public function write_method_can_except_boolean_true(): void
+    {
+        Logger::new()->write(true, 'info');
+        $log_file_content = file_get_contents($this->file_name);
+        $this->assertRegExp("/true/", $log_file_content);
+    }
+
+    /** @test */
+    public function write_method_can_except_boolean_false(): void
+    {
+        Logger::new()->write(false, 'info');
+        $log_file_content = file_get_contents($this->file_name);
+        $this->assertRegExp("/false/", $log_file_content);
+    }
+
+    /** @test */
+    public function write_method_can_except_null(): void
+    {
+        Logger::new()->write(null, 'info');
+        $log_file_content = file_get_contents($this->file_name);
+        $this->assertRegExp("/null/", $log_file_content);
+    }
 }
