@@ -22,9 +22,7 @@ class LoggerTest extends TestCase
 
     public function tearDown(): void
     {
-        if (file_exists($this->file_name)) {
-            unlink($this->file_name);
-        }
+        \file_exists($this->file_name) ? \unlink($this->file_name) : null;
     }
 
     /** @test */
@@ -40,7 +38,7 @@ class LoggerTest extends TestCase
     {
         Logger::setPath('different.log')->write('Some log message goes here');
         $this->assertFileExists('different.log');
-        @unlink('different.log');
+        \file_exists('different.log') ? \unlink('different.log') : null;
     }
 
     /** @test */
@@ -48,7 +46,7 @@ class LoggerTest extends TestCase
     {
         Logger::setPath('%serent%s', 'diff', '.log')->write('Some log message goes here');
         $this->assertFileExists('different.log');
-        @unlink('different.log');
+        \file_exists('different.log') ? \unlink('different.log') : null;
     }
 
     /** @test */
