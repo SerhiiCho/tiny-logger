@@ -13,7 +13,7 @@ class OptionTest extends TestCase
 
     public function setUp(): void
     {
-        Logger::new()->setPath($this->file_name);
+        Logger::setPath($this->file_name);
     }
 
     public function tearDown(): void
@@ -26,7 +26,7 @@ class OptionTest extends TestCase
     /** @test */
     public function pos_option_adds_trace_line_to_log_file(): void
     {
-        Logger::new()->write('Nice text is here', 'pos|debug');
+        Logger::write('Nice text is here', 'pos|debug');
         $line_number = __LINE__ - 1;
 
         $log_file_content = file_get_contents($this->file_name);
@@ -38,7 +38,7 @@ class OptionTest extends TestCase
     /** @test */
     public function if_pos_option_not_provided_trace_line_is_not_added(): void
     {
-        Logger::new()->write('Nice text is here', 'debug');
+        Logger::write('Nice text is here', 'debug');
         $line_number = __LINE__ - 1;
 
         $log_file_content = file_get_contents($this->file_name);

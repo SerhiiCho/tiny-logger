@@ -11,10 +11,10 @@ if (!function_exists('tiny_log')) {
      */
     function tiny_log($message, ?string $log_type = 'error', ?string $file_path = null): void
     {
-        $logger = Logger::new();
+        $logger = Logger::singleton();
 
         if ($file_path) {
-            $logger->setPath($file_path);
+            $logger::setPath($file_path);
         }
 
         $logger->write($message, $log_type);

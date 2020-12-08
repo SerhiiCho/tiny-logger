@@ -9,7 +9,8 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "symfony/var-dumper": "^4.2"
     },
     "license": "MIT",
     "authors": [
@@ -28,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Serhii\\Tests\\": "tests"
+            "Serhii\\Tests\\": "ests"
         }
     },
     "minimum-stability": "dev"

@@ -26,7 +26,7 @@ final class Logger
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
      * @return self
      */
-    public static function new(): self
+    public static function singleton(): self
     {
         return static::$instance ?? (static::$instance = new static());
     }
@@ -43,10 +43,10 @@ final class Logger
      * @param array $params
      * @return self
      */
-    public function setPath(string $path, ...$params): self
+    public static function setPath(string $path, ...$params): self
     {
-        $this->file_path = \sprintf($path, ...$params);
-        return $this;
+        self::singleton()->file_path = \sprintf($path, ...$params);
+        return self::singleton();
     }
 
     /**
@@ -67,9 +67,10 @@ final class Logger
      */
     public function write($text, ?string $options = 'error'): void
     {
-        $this->createFileIfNotExist();
-        $input = $this->prepareTextForLogging(new Text($text), new Option($options));
-        \file_put_contents($this->file_path, $input, FILE_APPEND);
+        $instance = self::singleton();
+        $instance->createFileIfNotExist();
+        $input = $instance->prepareTextForLogging(new Text($text), new Option($options));
+        \file_put_contents($instance->file_path, $input, FILE_APPEND);
     }
 
     /**
@@ -107,7 +108,7 @@ final class Logger
      */
     public function emergency($message): void
     {
-        $this->write($message, 'emergency');
+        self::singleton()->write($message, 'emergency');
     }
 
     /**
@@ -117,7 +118,7 @@ final class Logger
      */
     public function alert($message): void
     {
-        $this->write($message, 'alert');
+        self::singleton()->write($message, 'alert');
     }
 
     /**
@@ -127,7 +128,7 @@ final class Logger
      */
     public function critical($message): void
     {
-        $this->write($message, 'critical');
+        self::singleton()->write($message, 'critical');
     }
 
     /**
@@ -137,7 +138,7 @@ final class Logger
      */
     public function error($message): void
     {
-        $this->write($message, 'error');
+        self::singleton()->write($message, 'error');
     }
 
     /**
@@ -147,7 +148,7 @@ final class Logger
      */
     public function warning($message): void
     {
-        $this->write($message, 'warning');
+        self::singleton()->write($message, 'warning');
     }
 
     /**
@@ -157,7 +158,7 @@ final class Logger
      */
     public function notice($message): void
     {
-        $this->write($message, 'notice');
+        self::singleton()->write($message, 'notice');
     }
 
     /**
@@ -167,7 +168,7 @@ final class Logger
      */
     public function info($message): void
     {
-        $this->write($message, 'info');
+        self::singleton()->write($message, 'info');
     }
 
     /**
@@ -177,6 +178,6 @@ final class Logger
      */
     public function debug($message): void
     {
-        $this->write($message, 'debug');
+        self::singleton()->write($message, 'debug');
     }
 }
