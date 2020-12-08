@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Serhii\Tests;
 
@@ -16,7 +18,9 @@ class OptionTest extends TestCase
 
     public function tearDown(): void
     {
-        @unlink($this->file_name);
+        if (file_exists($this->file_name)) {
+            unlink($this->file_name);
+        }
     }
 
     /** @test */

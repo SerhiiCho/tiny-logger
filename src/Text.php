@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
@@ -6,10 +8,14 @@ use Throwable;
 
 final class Text
 {
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     private $input_text;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $prepared_text;
 
     public function __construct($input_text)
@@ -57,7 +63,7 @@ final class Text
     {
         $trace = \debug_backtrace()[2];
 
-        if (!!\preg_match('!/logger\.php!', $trace['file'])) {
+        if ((bool) \preg_match('!/logger\.php!', $trace['file'])) {
             $trace = \debug_backtrace()[3];
         }
 

@@ -1,20 +1,26 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
-use stdClass;
-
 final class Option
 {
-    const AVAILABLE_OPTIONS = ['pos'];
+    public const AVAILABLE_OPTIONS = ['pos'];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $input_options;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     private $prepared_options = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $error_type;
 
     public function __construct(string $input_options)
@@ -30,7 +36,7 @@ final class Option
     public function prepare(): self
     {
         foreach (\explode('|', $this->input_options) as $option) {
-            if (\in_array($option, self::AVAILABLE_OPTIONS)) {
+            if (\in_array($option, self::AVAILABLE_OPTIONS, true)) {
                 $this->prepared_options[] = $option;
                 continue;
             }
@@ -43,7 +49,7 @@ final class Option
 
     public function has(string $option_name): bool
     {
-        return \in_array($option_name, $this->prepared_options);
+        return \in_array($option_name, $this->prepared_options, true);
     }
 }
 

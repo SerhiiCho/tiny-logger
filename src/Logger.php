@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
@@ -6,17 +8,17 @@ use Exception;
 
 final class Logger
 {
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     private $file_path;
 
-    /** @var self|null */
+    /**
+     * @var self|null
+     */
     private static $instance;
 
     private function __construct() {}
-
-    private function __clone() {}
-
-    private function __wakeup() {}
 
     /**
      * Get singleton instance of the class.
@@ -39,7 +41,7 @@ final class Logger
      * setPath('%s/storage/logs/logs.log', '/var/www/html')
      *
      * @param array $params
-     * @return $this
+     * @return self
      */
     public function setPath(string $path, ...$params): self
     {
@@ -100,6 +102,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function emergency($message): void
     {
@@ -108,6 +112,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function alert($message): void
     {
@@ -116,6 +122,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function critical($message): void
     {
@@ -124,6 +132,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function error($message): void
     {
@@ -132,6 +142,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function warning($message): void
     {
@@ -140,6 +152,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function notice($message): void
     {
@@ -148,6 +162,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function info($message): void
     {
@@ -156,6 +172,8 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function debug($message): void
     {
