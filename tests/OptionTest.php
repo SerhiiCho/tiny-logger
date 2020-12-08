@@ -18,9 +18,7 @@ class OptionTest extends TestCase
 
     public function tearDown(): void
     {
-        if (file_exists($this->file_name)) {
-            unlink($this->file_name);
-        }
+        \file_exists($this->file_name) ? \unlink($this->file_name) : null;
     }
 
     /** @test */
@@ -29,9 +27,9 @@ class OptionTest extends TestCase
         Logger::write('Nice text is here', 'pos|debug');
         $line_number = __LINE__ - 1;
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
-        $regex = sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
+        $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
         $this->assertRegExp("$regex", $log_file_content);
     }
 
@@ -41,8 +39,8 @@ class OptionTest extends TestCase
         Logger::write('Nice text is here', 'debug');
         $line_number = __LINE__ - 1;
 
-        $log_file_content = file_get_contents($this->file_name);
-        $regex = sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
+        $log_file_content = \file_get_contents($this->file_name);
+        $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
 
         $this->assertNotRegExp("$regex", $log_file_content);
         $this->assertNotRegExp('!>>>!', $log_file_content);
@@ -54,9 +52,9 @@ class OptionTest extends TestCase
         tiny_log('Nice text is here', 'pos|debug');
         $line_number = __LINE__ - 1;
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
-        $regex = sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
+        $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
         $this->assertRegExp("$regex", $log_file_content);
     }
 
@@ -66,8 +64,8 @@ class OptionTest extends TestCase
         tiny_log('Nice text is here', 'debug');
         $line_number = __LINE__ - 1;
 
-        $log_file_content = file_get_contents($this->file_name);
-        $regex = sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
+        $log_file_content = \file_get_contents($this->file_name);
+        $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
 
         $this->assertNotRegExp("$regex", $log_file_content);
         $this->assertNotRegExp('!>>>!', $log_file_content);
@@ -79,9 +77,9 @@ class OptionTest extends TestCase
         tiny_log('Nice text is here', 'pos');
         $line_number = __LINE__ - 1;
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
-        $regex = sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
+        $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
         $this->assertRegExp("$regex", $log_file_content);
     }
 }

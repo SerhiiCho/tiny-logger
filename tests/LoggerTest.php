@@ -54,7 +54,7 @@ class LoggerTest extends TestCase
     {
         Logger::write('Nice text is here');
         Logger::write(null);
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
         $this->assertRegExp('/] error: Nice text is here/', $log_file_content);
         $this->assertRegExp('/null/', $log_file_content);
     }
@@ -63,7 +63,7 @@ class LoggerTest extends TestCase
     public function write_method_writes_given_text_to_a_log_file_with_different_type(): void
     {
         Logger::write('Nice text is here', 'debug');
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
         $this->assertRegExp('/] debug: Nice text is here/', $log_file_content);
     }
 
@@ -73,9 +73,9 @@ class LoggerTest extends TestCase
         $array = ['hello' => 'world'];
         Logger::write($array, 'info');
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
-        $json = json_encode($array, JSON_PRETTY_PRINT);
+        $json = \json_encode($array, JSON_PRETTY_PRINT);
         $this->assertRegExp("/$json/", $log_file_content);
     }
 
@@ -85,9 +85,9 @@ class LoggerTest extends TestCase
         $obj = (object) ['hello' => 'world'];
         Logger::write($obj, 'info');
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
-        $json = json_encode($obj, JSON_PRETTY_PRINT);
+        $json = \json_encode($obj, JSON_PRETTY_PRINT);
         $this->assertRegExp("/$json/", $log_file_content);
     }
 
@@ -125,7 +125,7 @@ class LoggerTest extends TestCase
             Logger::write($e);
         }
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
         $this->assertRegExp("/This is an exception/", $log_file_content);
     }
@@ -139,7 +139,7 @@ class LoggerTest extends TestCase
             Logger::write($e);
         }
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
         $this->assertRegExp("/This is an error/", $log_file_content);
     }
@@ -153,7 +153,7 @@ class LoggerTest extends TestCase
             Logger::write($e);
         }
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
         $this->assertRegExp("/This is a parse error/", $log_file_content);
     }
@@ -167,7 +167,7 @@ class LoggerTest extends TestCase
             Logger::write($e);
         }
 
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
 
         $this->assertRegExp("/This is a type error/", $log_file_content);
     }
@@ -176,7 +176,7 @@ class LoggerTest extends TestCase
     public function write_method_can_except_boolean_true(): void
     {
         Logger::write(true, 'info');
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
         $this->assertRegExp("/true/", $log_file_content);
     }
 
@@ -184,7 +184,7 @@ class LoggerTest extends TestCase
     public function write_method_can_except_boolean_false(): void
     {
         Logger::write(false, 'info');
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
         $this->assertRegExp("/false/", $log_file_content);
     }
 
@@ -192,7 +192,7 @@ class LoggerTest extends TestCase
     public function write_method_can_except_null(): void
     {
         Logger::write(null, 'info');
-        $log_file_content = file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_name);
         $this->assertRegExp("/null/", $log_file_content);
     }
 }
