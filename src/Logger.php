@@ -177,6 +177,6 @@ final class Logger
      */
     public function debug($message): void
     {
-        $this->write($message, 'degug');
+        $this->write($message, 'debug');
     }
 }
