@@ -14,12 +14,12 @@ final class Option
     private $input_options;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $prepared_options = [];
 
     /**
-     * @var string
+     * @var string|null
      */
     private $error_type;
 
@@ -52,4 +52,3 @@ final class Option
         return \in_array($option_name, $this->prepared_options, true);
     }
 }
-

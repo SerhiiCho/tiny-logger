@@ -18,15 +18,17 @@ final class Logger
      */
     private static $instance;
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     /**
      * Get singleton instance of the class.
      *
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
-     * @return self
+     * @return \Serhii\TinyLogger\Logger
      */
-    public static function singleton(): self
+    public static function singleton(): Logger
     {
         return static::$instance ?? (static::$instance = new static());
     }
@@ -39,14 +41,16 @@ final class Logger
      * @param string $path Absolute or relative path to a directory where log file
      * will be created. Sprintf syntax is allowed for this method like so:
      * setPath('%s/storage/logs/logs.log', '/var/www/html')
+
+     * @param mixed ...$params
      *
-     * @param array $params
-     * @return self
+     * @return \Serhii\TinyLogger\Logger
      */
-    public static function setPath(string $path, ...$params): self
+    public static function setPath(string $path, ...$params): Logger
     {
-        self::singleton()->file_path = \sprintf($path, ...$params);
-        return self::singleton();
+        $instance = self::singleton();
+        $instance->file_path = $params ? \sprintf($path, ...$params) : $path;
+        return $instance;
     }
 
     /**
@@ -69,8 +73,11 @@ final class Logger
     {
         $instance = self::singleton();
         $instance->createFileIfNotExist();
-        $input = $instance->prepareTextForLogging(new Text($text), new Option($options));
-        \file_put_contents($instance->file_path, $input, FILE_APPEND);
+        $input = $instance->prepareTextForLogging(new Text($text), new Option($options ?? 'error'));
+
+        if ($instance->file_path) {
+            \file_put_contents($instance->file_path, $input, FILE_APPEND);
+        }
     }
 
     /**

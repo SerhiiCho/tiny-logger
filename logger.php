@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Serhii\TinyLogger\Logger;
 
 if (!function_exists('tiny_log')) {
     /**
-     * @param $message
+     * @param mixed $message
      * @param string|null $log_type
      * @param string|null $file_path
      * @throws \Exception

@@ -14,10 +14,13 @@ final class Text
     private $input_text;
 
     /**
-     * @var string
+     * @var string|bool|null
      */
     private $prepared_text;
 
+    /**
+     * @param mixed $input_text
+     */
     public function __construct($input_text)
     {
         $this->input_text = $input_text;
@@ -27,17 +30,19 @@ final class Text
     {
         if ($this->input_text instanceof Throwable) {
             $e = $this->input_text;
-            $this->prepared_text = "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n{$e->getTraceAsString()}";
+            $trace = $e->getTraceAsString();
+            $this->prepared_text = "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
             return $this;
         }
 
         if (\is_float($this->input_text) || \is_int($this->input_text)) {
-            $this->prepared_text = (string)$this->input_text;
+            $this->prepared_text = (string) $this->input_text;
             return $this;
         }
 
         if (\is_array($this->input_text) || \is_object($this->input_text)) {
-            $this->prepared_text = \json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $encoded = \json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $this->prepared_text = \is_string($encoded) ? $encoded : '';
             return $this;
         }
 
@@ -75,4 +80,3 @@ final class Text
         return '[' . \date('Y-m-d H:i:s') . ']';
     }
 }
-
