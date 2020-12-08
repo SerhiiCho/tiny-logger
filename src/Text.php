@@ -25,13 +25,13 @@ final class Text
             return $this;
         }
 
-        if (is_float($this->input_text) || is_int($this->input_text)) {
+        if (\is_float($this->input_text) || \is_int($this->input_text)) {
             $this->prepared_text = (string)$this->input_text;
             return $this;
         }
 
-        if (is_array($this->input_text) || is_object($this->input_text)) {
-            $this->prepared_text = json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if (\is_array($this->input_text) || \is_object($this->input_text)) {
+            $this->prepared_text = \json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return $this;
         }
 
@@ -55,10 +55,10 @@ final class Text
 
     public function getTraceLine(): string
     {
-        $trace = debug_backtrace()[2];
+        $trace = \debug_backtrace()[2];
 
-        if (!!preg_match('!/logger\.php!', $trace['file'])) {
-            $trace = debug_backtrace()[3];
+        if (!!\preg_match('!/logger\.php!', $trace['file'])) {
+            $trace = \debug_backtrace()[3];
         }
 
         return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
@@ -66,7 +66,7 @@ final class Text
 
     public function getDateBlock(): string
     {
-        return '[' . date('Y-m-d H:i:s') . ']';
+        return '[' . \date('Y-m-d H:i:s') . ']';
     }
 }
 

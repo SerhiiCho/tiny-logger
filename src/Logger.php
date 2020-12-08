@@ -43,7 +43,7 @@ final class Logger
      */
     public function setPath(string $path, ...$params): self
     {
-        $this->file_path = sprintf($path, ...$params);
+        $this->file_path = \sprintf($path, ...$params);
         return $this;
     }
 
@@ -67,7 +67,7 @@ final class Logger
     {
         $this->createFileIfNotExist();
         $input = $this->prepareTextForLogging(new Text($text), new Option($options));
-        file_put_contents($this->file_path, $input, FILE_APPEND);
+        \file_put_contents($this->file_path, $input, FILE_APPEND);
     }
 
     /**
@@ -75,12 +75,12 @@ final class Logger
      */
     private function createFileIfNotExist(): void
     {
-        if (is_null($this->file_path)) {
+        if (\is_null($this->file_path)) {
             throw new Exception('File path for logging output is not specified');
         }
 
-        if (!file_exists($this->file_path)) {
-            file_put_contents($this->file_path, '');
+        if (!\file_exists($this->file_path)) {
+            \file_put_contents($this->file_path, '');
         }
     }
 

@@ -29,8 +29,8 @@ final class Option
 
     public function prepare(): self
     {
-        foreach (explode('|', $this->input_options) as $option) {
-            if (in_array($option, self::AVAILABLE_OPTIONS)) {
+        foreach (\explode('|', $this->input_options) as $option) {
+            if (\in_array($option, self::AVAILABLE_OPTIONS)) {
                 $this->prepared_options[] = $option;
                 continue;
             }
@@ -43,7 +43,7 @@ final class Option
 
     public function has(string $option_name): bool
     {
-        return in_array($option_name, $this->prepared_options);
+        return \in_array($option_name, $this->prepared_options);
     }
 }
 
