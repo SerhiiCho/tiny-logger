@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
@@ -6,12 +8,19 @@ use Throwable;
 
 final class Text
 {
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     private $input_text;
 
-    /** @var string */
+    /**
+     * @var string|bool|null
+     */
     private $prepared_text;
 
+    /**
+     * @param mixed $input_text
+     */
     public function __construct($input_text)
     {
         $this->input_text = $input_text;
@@ -21,17 +30,19 @@ final class Text
     {
         if ($this->input_text instanceof Throwable) {
             $e = $this->input_text;
-            $this->prepared_text = "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n{$e->getTraceAsString()}";
+            $trace = $e->getTraceAsString();
+            $this->prepared_text = "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
             return $this;
         }
 
-        if (is_float($this->input_text) || is_int($this->input_text)) {
-            $this->prepared_text = (string)$this->input_text;
+        if (\is_float($this->input_text) || \is_int($this->input_text)) {
+            $this->prepared_text = (string) $this->input_text;
             return $this;
         }
 
-        if (is_array($this->input_text) || is_object($this->input_text)) {
-            $this->prepared_text = json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if (\is_array($this->input_text) || \is_object($this->input_text)) {
+            $encoded = \json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $this->prepared_text = \is_string($encoded) ? $encoded : '';
             return $this;
         }
 
@@ -55,10 +66,10 @@ final class Text
 
     public function getTraceLine(): string
     {
-        $trace = debug_backtrace()[2];
+        $trace = \debug_backtrace()[2];
 
-        if (!!preg_match('!/logger\.php!', $trace['file'])) {
-            $trace = debug_backtrace()[3];
+        if ((bool) \preg_match('!/logger\.php!', $trace['file'])) {
+            $trace = \debug_backtrace()[3];
         }
 
         return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
@@ -66,7 +77,6 @@ final class Text
 
     public function getDateBlock(): string
     {
-        return '[' . date('Y-m-d H:i:s') . ']';
+        return '[' . \date('Y-m-d H:i:s') . ']';
     }
 }
-

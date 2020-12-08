@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
@@ -6,25 +8,27 @@ use Exception;
 
 final class Logger
 {
-    /** @var string|null */
+    /**
+     * @var string|null
+     */
     private $file_path;
 
-    /** @var self|null */
+    /**
+     * @var self|null
+     */
     private static $instance;
 
-    private function __construct() {}
-
-    private function __clone() {}
-
-    private function __wakeup() {}
+    private function __construct()
+    {
+    }
 
     /**
      * Get singleton instance of the class.
      *
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
-     * @return self
+     * @return \Serhii\TinyLogger\Logger
      */
-    public static function new(): self
+    public static function singleton(): Logger
     {
         return static::$instance ?? (static::$instance = new static());
     }
@@ -37,14 +41,16 @@ final class Logger
      * @param string $path Absolute or relative path to a directory where log file
      * will be created. Sprintf syntax is allowed for this method like so:
      * setPath('%s/storage/logs/logs.log', '/var/www/html')
+
+     * @param mixed ...$params
      *
-     * @param array $params
-     * @return $this
+     * @return \Serhii\TinyLogger\Logger
      */
-    public function setPath(string $path, ...$params): self
+    public static function setPath(string $path, ...$params): Logger
     {
-        $this->file_path = sprintf($path, ...$params);
-        return $this;
+        $instance = self::singleton();
+        $instance->file_path = $params ? \sprintf($path, ...$params) : $path;
+        return $instance;
     }
 
     /**
@@ -65,9 +71,13 @@ final class Logger
      */
     public function write($text, ?string $options = 'error'): void
     {
-        $this->createFileIfNotExist();
-        $input = $this->prepareTextForLogging(new Text($text), new Option($options));
-        file_put_contents($this->file_path, $input, FILE_APPEND);
+        $instance = self::singleton();
+        $instance->createFileIfNotExist();
+        $input = $instance->prepareTextForLogging(new Text($text), new Option($options ?? 'error'));
+
+        if ($instance->file_path) {
+            \file_put_contents($instance->file_path, $input, FILE_APPEND);
+        }
     }
 
     /**
@@ -75,12 +85,12 @@ final class Logger
      */
     private function createFileIfNotExist(): void
     {
-        if (is_null($this->file_path)) {
+        if (\is_null($this->file_path)) {
             throw new Exception('File path for logging output is not specified');
         }
 
-        if (!file_exists($this->file_path)) {
-            file_put_contents($this->file_path, '');
+        if (!\file_exists($this->file_path)) {
+            \file_put_contents($this->file_path, '');
         }
     }
 
@@ -100,65 +110,81 @@ final class Logger
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function emergency($message): void
     {
-        $this->write($message, 'emergency');
+        self::singleton()->write($message, 'emergency');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function alert($message): void
     {
-        $this->write($message, 'alert');
+        self::singleton()->write($message, 'alert');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function critical($message): void
     {
-        $this->write($message, 'critical');
+        self::singleton()->write($message, 'critical');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function error($message): void
     {
-        $this->write($message, 'error');
+        self::singleton()->write($message, 'error');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function warning($message): void
     {
-        $this->write($message, 'warning');
+        self::singleton()->write($message, 'warning');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function notice($message): void
     {
-        $this->write($message, 'notice');
+        self::singleton()->write($message, 'notice');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function info($message): void
     {
-        $this->write($message, 'info');
+        self::singleton()->write($message, 'info');
     }
 
     /**
      * @param mixed $message
+     *
+     * @throws \Exception
      */
     public function debug($message): void
     {
-        $this->write($message, 'degug');
+        self::singleton()->write($message, 'debug');
     }
 }
