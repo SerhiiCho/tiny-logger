@@ -6,7 +6,7 @@ namespace Serhii\TinyLogger;
 
 use Curl\Curl;
 
-final class CurlHandler
+class CurlHandler
 {
     /**
      * @var string
@@ -23,11 +23,17 @@ final class CurlHandler
      */
     private $text;
 
-    public function __construct(string $url, ?array $json, Text $text)
+    /**
+     * @var \Serhii\TinyLogger\Option
+     */
+    private $option;
+
+    public function __construct(string $url, ?array $json, Text $text, Option $option)
     {
         $this->url = $url;
         $this->json = $json;
         $this->text = $text;
+        $this->option = $option;
     }
 
     public function makeRequest(): void
@@ -41,9 +47,9 @@ final class CurlHandler
     private function createDefaultJson(): array
     {
         return [
-            'timestamp' => time(),
+            'timestamp' => $this->text->getTimestamp(),
             'message' => $this->text->getPreparedText(),
-            'type' => $this->text->getPreparedText(),
+            'type' => $this->option->getErrorType(),
         ];
     }
 
