@@ -48,9 +48,8 @@ final class Logger
      */
     public static function setPath(string $path, ...$params): Logger
     {
-        $instance = self::singleton();
-        $instance->file_path = $params ? \sprintf($path, ...$params) : $path;
-        return $instance;
+        self::singleton()->file_path = $params ? \sprintf($path, ...$params) : $path;
+        return self::singleton();
     }
 
     /**
@@ -80,7 +79,8 @@ final class Logger
      */
     public static function enablePostRequest(string $url, ?array $json = null): void
     {
-        //
+        self::singleton()->post_request_url = $url;
+        self::singleton()->post_request_json = $json;
     }
 
     /**
@@ -101,12 +101,13 @@ final class Logger
      */
     public function write($text, ?string $options = 'error'): void
     {
-        $instance = self::singleton();
-        $instance->createFileIfNotExist();
-        $input = $instance->prepareTextForLogging(new Text($text), new Option($options ?? 'error'));
+        $text = new Text($text);
 
-        if ($instance->file_path) {
-            \file_put_contents($instance->file_path, $input, FILE_APPEND);
+        self::$instance->createFileIfNotExist();
+        $input = self::$instance->prepareTextForLogging($text, new Option($options ?? 'error'));
+
+        if (self::$instance->file_path) {
+            \file_put_contents(self::$instance->file_path, $input, FILE_APPEND);
         }
     }
 
