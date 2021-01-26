@@ -14,6 +14,16 @@ final class Logger
     private $file_path;
 
     /**
+     * @var mixed[]|null
+     */
+    private $post_request_json;
+
+    /**
+     * @var string|null
+     */
+    private $post_request_url;
+
+    /**
      * @var self|null
      */
     private static $instance;
