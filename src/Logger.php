@@ -54,6 +54,36 @@ final class Logger
     }
 
     /**
+     * @param string $url endpoint where POST request is going to point
+     * @param mixed[]|null $json If this argument is passed, POST data is going to be a json object with
+     * custom structure. You can name json fields and organize values however you want.
+     *
+     * JSON example:
+     * [
+     *     'time' => JsonFieldValue::TIMESTAMP,
+     *     'errorMessage' => 'Error message: ' . JsonFieldValue::MESSAGE,
+     *     'type' => JsonFieldValue::ERROR_TYPE,
+     * ]
+     *
+     * Output will be:
+     * {
+     *     "time": 1611675632,
+     *     "errorMessage": 'Error message: Undefined variable at line 24 in \App\Models\User class.',
+     *     "type": 'error',
+     * }
+     *
+     * Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be
+     * replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error message timestamp.
+     *
+     * NOTE: YOU CANNOT ADD ANY ADDITIONAL INFORMATION TO THE JsonFieldValue::TIMESTAMP value like we did
+     * with errorMessage, because timestamp will be cast to integer.
+     */
+    public static function enablePostRequest(string $url, ?array $json = null): void
+    {
+        //
+    }
+
+    /**
      * You can pass almost any type as the first argument and method will
      * figure out what it needs to do with this data in order to save it
      * into a file.
