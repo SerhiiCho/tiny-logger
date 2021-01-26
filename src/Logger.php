@@ -30,7 +30,7 @@ final class Logger
      */
     public static function singleton(): Logger
     {
-        return static::$instance ?? (static::$instance = new static());
+        return self::$instance ?? (self::$instance = new self());
     }
 
     /**
