@@ -65,6 +65,54 @@ tiny_log('Some error message', 'option|info'); // with error type 'info'
 >>> /var/www/html/app/Services/App.php on line: 77.
 ```
 
+## Send logs with POST request
+
+Tiny logger allows you to send logs as json object on a specific endpoint. In order to enable this option you need to call `enablePostRequest` method on `Logger` class.
+
+```php
+use Serhii\TinyLogger\Logger;
+
+Logger::enablePostRequest('http://my-site.com/webhook');
+```
+
+Now if error occurs, json will be sent on `http://my-site.com/webhook` url.
+
+```json
+{
+    "timestamp": 1611675632,
+    "message": "Undefined variable at line 24 in \\App\\Models\\User class.",
+    "type": "error"
+}
+```
+
+If you need to customize the json object structure, you can pass array as the second argument on `enablePostRequest` method.
+
+```php
+use Serhii\TinyLogger\JsonFieldValue;
+use Serhii\TinyLogger\Logger;
+
+Logger::enablePostRequest('http://my-site.com/webhook', [
+    'time' => JsonFieldValue::TIMESTAMP,
+    'errorMessage' => 'Error message: ' . JsonFieldValue::MESSAGE,
+    'errorType' => JsonFieldValue::ERROR_TYPE,
+    'token' => getenv('MY_AUTH_TOKEN')
+]);
+```
+
+Now you'll get json like this:
+
+```json
+{
+    "time": 1611675632,
+    "errorMessage": "Error message: Undefined variable at line 24 in \\App\\Models\\User class.",
+    "errorType": "error",
+    "token": "29d62x7g656e6f9"
+}
+```
+ Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error timestamp.
+
+> YOU CANNOT ADD ANY ADDITIONAL INFORMATION TO THE JsonFieldValue::TIMESTAMP value like we did with errorMessage, because timestamp will be cast to integer.
+
 ## Get started
 
 To install all php dependencies you need to have [Composer PHP package manager](https://getcomposer.org) installed on your machine. Then you need to run the command below in your root directory of the project.
