@@ -117,9 +117,6 @@ final class Logger
 
     private function prepareTextForLogging(Text $text, Option $option): string
     {
-        $text->prepare();
-        $option->prepare();
-
         $result = "{$text->getDateBlock()} {$option->getErrorType()}: {$text->getPreparedText()}" . PHP_EOL;
 
         if ($option->has('pos')) {
