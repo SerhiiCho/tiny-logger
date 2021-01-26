@@ -81,6 +81,7 @@ Now if error occurs, json will be sent to `http://my-site.com/webhook` endpoint 
 {
     "timestamp": 1611675632,
     "message": "Undefined variable at line 24 in \\App\\Models\\User class.",
+    "trace": "#0 /var/www/html/index.php(17): require('/var/www/html/w...')\n#1 {main}",
     "type": "error"
 }
 ```
@@ -95,6 +96,7 @@ Logger::enablePostRequest('http://my-site.com/webhook', [
     'time' => JsonFieldValue::TIMESTAMP,
     'errorMessage' => 'Error message: ' . JsonFieldValue::MESSAGE,
     'errorType' => JsonFieldValue::ERROR_TYPE,
+    "trace" => JsonFieldValue::TRACE,
     'token' => getenv('MY_AUTH_TOKEN')
 ]);
 ```
@@ -105,6 +107,7 @@ Now you'll get json like this:
 {
     "time": 1611675632,
     "errorMessage": "Error message: Undefined variable at line 24 in \\App\\Models\\User class.",
+    "trace": "#0 /var/www/html/index.php(17): require('/var/www/html/w...')\n#1 {main}",
     "errorType": "error",
     "token": "29d62x7g656e6f9"
 }
