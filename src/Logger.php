@@ -78,7 +78,7 @@ final class Logger
      * figure out what it needs to do with this data in order to save it
      * into a file.
      *
-     * @param mixed $text Text that will be written as a context. Can be any type.
+     * @param mixed $input Text that will be written as a context. Can be any type.
      * If Throwable object is passed, it will be logged with whole stack trace,
      * error message and line number.
      * @param string|null $options Options can be log type like "error",
@@ -89,20 +89,22 @@ final class Logger
      * @throws \Exception Throws if file path wasn't wasn't provided by setPath()
      * method. Make sure that setPath() is called before the logging happens.
      */
-    public function write($text, ?string $options = 'error'): void
+    public function write($input, ?string $options = 'error'): void
     {
-        $text = new Text($text);
+        $self = self::$instance;
+        $text = new Text($input);
+        $option = new Option($options);
 
-        self::$instance->createFileIfNotExist();
-        $input = self::$instance->prepareTextForLogging($text, new Option($options ?? 'error'));
+        $self->createFileIfNotExist();
+        $result = $self->prepareTextForLogging($text, $option);
 
-        if (self::$instance->post_request_url) {
-            $curl = new CurlHandler(self::$instance->post_request_url, self::$instance->post_request_json, $text);
+        if ($self->post_request_url) {
+            $curl = new CurlHandler($self->post_request_url, $self->post_request_json, $text, $option);
             $curl->makeRequest();
         }
 
-        if (self::$instance->file_path) {
-            \file_put_contents(self::$instance->file_path, $input, FILE_APPEND);
+        if ($self->file_path) {
+            \file_put_contents($self->file_path, $result, FILE_APPEND);
         }
     }
 
