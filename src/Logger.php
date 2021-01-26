@@ -96,6 +96,11 @@ final class Logger
         self::$instance->createFileIfNotExist();
         $input = self::$instance->prepareTextForLogging($text, new Option($options ?? 'error'));
 
+        if (self::$instance->post_request_url) {
+            $curl = new CurlHandler(self::$instance->post_request_url, self::$instance->post_request_json, $text);
+            $curl->makeRequest();
+        }
+
         if (self::$instance->file_path) {
             \file_put_contents(self::$instance->file_path, $input, FILE_APPEND);
         }
