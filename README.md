@@ -75,7 +75,7 @@ use Serhii\TinyLogger\Logger;
 Logger::enablePostRequest('http://my-site.com/webhook');
 ```
 
-Now if error occurs, json will be sent on `http://my-site.com/webhook` url.
+Now if error occurs, json will be sent to `http://my-site.com/webhook` endpoint with POST request.
 
 ```json
 {
