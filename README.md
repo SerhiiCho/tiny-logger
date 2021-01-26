@@ -111,7 +111,7 @@ Now you'll get json like this:
 ```
  Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error timestamp.
 
-> YOU CANNOT ADD ANY ADDITIONAL INFORMATION TO THE JsonFieldValue::TIMESTAMP value like we did with errorMessage, because timestamp will be cast to integer.
+> YOU CANNOT ADD ANY ADDITIONAL INFORMATION TO THE JsonFieldValue::TIMESTAMP VALUE LIKE WE DID WITH ERRORMESSAGE, BECAUSE TIMESTAMP WILL BE CAST TO INTEGER.
 
 ## Get started
 
