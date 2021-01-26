@@ -6,9 +6,9 @@ namespace Serhii\TinyLogger;
 
 final class JsonFieldValue
 {
-    public const MESSAGE = '{{{-message-}}}';
+    public const MESSAGE = '{{->message<-}}';
 
-    public const TIMESTAMP = '{{{-timestamp-}}}';
+    public const TIMESTAMP = '{{->timestamp<-}}';
 
-    public const ERROR_TYPE = '{{{-errorType-}}}';
+    public const ERROR_TYPE = '{{->errorType<-}}';
 }
