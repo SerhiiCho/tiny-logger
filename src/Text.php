@@ -60,6 +60,11 @@ final class Text
         return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
     }
 
+    public function getTimestamp(): int
+    {
+        return time();
+    }
+
     public function getDateBlock(): string
     {
         return '[' . \date('Y-m-d H:i:s') . ']';
