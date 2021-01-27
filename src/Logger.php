@@ -74,6 +74,12 @@ final class Logger
         self::singleton()->post_request_json = $json;
     }
 
+    public static function disablePostRequest(): void
+    {
+        self::singleton()->post_request_url = null;
+        self::singleton()->post_request_json = null;
+    }
+
     /**
      * You can pass almost any type as the first argument and method will
      * figure out what it needs to do with this data in order to save it

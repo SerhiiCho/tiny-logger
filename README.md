@@ -85,7 +85,7 @@ Now if error occurs, json will be sent to `http://my-site.com/webhook` endpoint 
 }
 ```
 
-If you need to customize the json object structure, you can pass array as the second argument on `enablePostRequest` method.
+If you need to customize the json object structure, you can pass array as the second argument on `enablePostRequest` method. To disable this method call `disablePostRequest` method.
 
 ```php
 use Serhii\TinyLogger\JsonFieldValue;
@@ -109,7 +109,7 @@ Now you'll get json like this:
     "token": "29d62x7g656e6f9"
 }
 ```
- Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error timestamp.
+Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error timestamp.
 
 ## Get started
 
