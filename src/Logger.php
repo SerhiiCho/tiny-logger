@@ -36,9 +36,9 @@ final class Logger
      * Get singleton instance of the class.
      *
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
-     * @return \Serhii\TinyLogger\Logger
+     * @return self
      */
-    public static function singleton(): Logger
+    public static function singleton(): self
     {
         return self::$instance ?? (self::$instance = new self());
     }
