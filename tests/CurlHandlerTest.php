@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Serhii\Tests;
 
 use Curl\Curl;
-use Mockery;
 use PHPUnit\Framework\TestCase;
 use Serhii\TinyLogger\CurlHandler;
 use Serhii\TinyLogger\JsonFieldValue;
@@ -27,9 +26,8 @@ class CurlHandlerTest extends TestCase
             'type' => $option->getErrorType(),
         ];
 
-        $curl = Mockery::mock(Curl::class);
-        $curl->shouldReceive('post')->once()->withArgs([$url, $expected_json, true]);
-        $curl->shouldReceive('setHeader')->once();
+        $curl = $this->createMock(Curl::class);
+        $curl->expects($this->once())->method('post')->with($url, $expected_json, true);
 
         $curl_handler = $this->getMockBuilder(CurlHandler::class)
             ->setMethodsExcept(['makeRequest'])
@@ -61,9 +59,8 @@ class CurlHandlerTest extends TestCase
             'token' => 12345,
         ];
 
-        $curl = Mockery::mock(Curl::class);
-        $curl->shouldReceive('post')->once()->withArgs([$url, $expected_json, true]);
-        $curl->shouldReceive('setHeader')->once();
+        $curl = $this->createMock(Curl::class);
+        $curl->expects($this->once())->method('post')->with($url, $expected_json, true);
 
         $curl_handler = $this->getMockBuilder(CurlHandler::class)
             ->setMethodsExcept(['makeRequest'])
