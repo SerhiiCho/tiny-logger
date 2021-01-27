@@ -6,10 +6,10 @@ namespace Serhii\Tests;
 
 use Error;
 use Exception;
-use TypeError;
 use ParseError;
-use Serhii\TinyLogger\Logger;
 use PHPUnit\Framework\TestCase;
+use Serhii\TinyLogger\Logger;
+use TypeError;
 
 class LoggerTest extends TestCase
 {
@@ -55,8 +55,8 @@ class LoggerTest extends TestCase
         Logger::write('Nice text is here');
         Logger::write(null);
         $log_file_content = \file_get_contents($this->file_name);
-        $this->assertRegExp('/] error: Nice text is here/', $log_file_content);
-        $this->assertRegExp('/null/', $log_file_content);
+        $this->assertStringContainsString('] error: Nice text is here', $log_file_content);
+        $this->assertStringContainsString('null', $log_file_content);
     }
 
     /** @test */
@@ -64,7 +64,7 @@ class LoggerTest extends TestCase
     {
         Logger::write('Nice text is here', 'debug');
         $log_file_content = \file_get_contents($this->file_name);
-        $this->assertRegExp('/] debug: Nice text is here/', $log_file_content);
+        $this->assertStringContainsString('] debug: Nice text is here', $log_file_content);
     }
 
     /** @test */
@@ -76,7 +76,7 @@ class LoggerTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
 
         $json = \json_encode($array, JSON_PRETTY_PRINT);
-        $this->assertRegExp("/$json/", $log_file_content);
+        $this->assertStringContainsString($json, $log_file_content);
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class LoggerTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
 
         $json = \json_encode($obj, JSON_PRETTY_PRINT);
-        $this->assertRegExp("/$json/", $log_file_content);
+        $this->assertStringContainsString($json, $log_file_content);
     }
 
     /** @test */
@@ -127,7 +127,7 @@ class LoggerTest extends TestCase
 
         $log_file_content = \file_get_contents($this->file_name);
 
-        $this->assertRegExp("/This is an exception/", $log_file_content);
+        $this->assertStringContainsString('This is an exception', $log_file_content);
     }
 
     /** @test */
@@ -141,7 +141,7 @@ class LoggerTest extends TestCase
 
         $log_file_content = \file_get_contents($this->file_name);
 
-        $this->assertRegExp("/This is an error/", $log_file_content);
+        $this->assertStringContainsString('This is an error', $log_file_content);
     }
 
     /** @test */
@@ -153,9 +153,7 @@ class LoggerTest extends TestCase
             Logger::write($e);
         }
 
-        $log_file_content = \file_get_contents($this->file_name);
-
-        $this->assertRegExp("/This is a parse error/", $log_file_content);
+        $this->assertStringContainsString('This is a parse error', \file_get_contents($this->file_name));
     }
 
     /** @test */
@@ -167,17 +165,14 @@ class LoggerTest extends TestCase
             Logger::write($e);
         }
 
-        $log_file_content = \file_get_contents($this->file_name);
-
-        $this->assertRegExp("/This is a type error/", $log_file_content);
+        $this->assertStringContainsString('This is a type error', \file_get_contents($this->file_name));
     }
 
     /** @test */
     public function write_method_can_except_boolean_true(): void
     {
         Logger::write(true, 'info');
-        $log_file_content = \file_get_contents($this->file_name);
-        $this->assertRegExp("/true/", $log_file_content);
+        $this->assertStringContainsString('true', \file_get_contents($this->file_name));
     }
 
     /** @test */
@@ -185,7 +180,7 @@ class LoggerTest extends TestCase
     {
         Logger::write(false, 'info');
         $log_file_content = \file_get_contents($this->file_name);
-        $this->assertRegExp("/false/", $log_file_content);
+        $this->assertStringContainsString('false', $log_file_content);
     }
 
     /** @test */
@@ -193,6 +188,6 @@ class LoggerTest extends TestCase
     {
         Logger::write(null, 'info');
         $log_file_content = \file_get_contents($this->file_name);
-        $this->assertRegExp("/null/", $log_file_content);
+        $this->assertStringContainsString('null', $log_file_content);
     }
 }

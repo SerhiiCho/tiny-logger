@@ -30,7 +30,7 @@ class OptionTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
 
         $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
-        $this->assertRegExp("$regex", $log_file_content);
+        $this->assertRegExp($regex, $log_file_content);
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class OptionTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
         $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
 
-        $this->assertNotRegExp("$regex", $log_file_content);
+        $this->assertNotRegExp($regex, $log_file_content);
         $this->assertNotRegExp('!>>>!', $log_file_content);
     }
 
@@ -55,7 +55,7 @@ class OptionTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
 
         $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
-        $this->assertRegExp("$regex", $log_file_content);
+        $this->assertRegExp($regex, $log_file_content);
     }
 
     /** @test */
@@ -67,7 +67,7 @@ class OptionTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
         $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
 
-        $this->assertNotRegExp("$regex", $log_file_content);
+        $this->assertNotRegExp($regex, $log_file_content);
         $this->assertNotRegExp('!>>>!', $log_file_content);
     }
 
@@ -80,6 +80,6 @@ class OptionTest extends TestCase
         $log_file_content = \file_get_contents($this->file_name);
 
         $regex = \sprintf('!>>> %s on line: %d!', __FILE__, $line_number);
-        $this->assertRegExp("$regex", $log_file_content);
+        $this->assertRegExp($regex, $log_file_content);
     }
 }
