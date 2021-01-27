@@ -39,9 +39,15 @@ class CurlHandler
     public function makeRequest(): void
     {
         $curl = $this->getCurl();
+        $json = $this->json ? $this->createCustomJson() : $this->createDefaultJson();
 
         $curl->setHeader('Content-Type', 'application/json');
-        $curl->post($this->url, $this->json ?? $this->createDefaultJson(), true);
+        $curl->post($this->url, $json, true);
+    }
+
+    public function getCurl(): Curl
+    {
+        return new Curl();
     }
 
     private function createDefaultJson(): array
@@ -53,8 +59,10 @@ class CurlHandler
         ];
     }
 
-    public function getCurl(): Curl
+    private function createCustomJson(): array
     {
-        return new Curl();
+        $search = [JsonFieldValue::TIMESTAMP, JsonFieldValue::MESSAGE, JsonFieldValue::ERROR_TYPE];
+        $replace = [$this->text->getDateBlock(true), $this->text->getPreparedText(), $this->option->getErrorType()];
+        return str_replace($search, $replace, $this->json);
     }
 }
