@@ -20,7 +20,7 @@ class CurlHandlerTest extends TestCase
         $url = 'http://test-url.com';
 
         $expected_json = [
-            'timestamp' => $text->getTimestamp(),
+            'timestamp' => $text->getDateBlock(true),
             'message' => $text->getPreparedText(),
             'type' => $option->getErrorType(),
         ];

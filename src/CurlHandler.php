@@ -47,7 +47,7 @@ class CurlHandler
     private function createDefaultJson(): array
     {
         return [
-            'timestamp' => $this->text->getTimestamp(),
+            'timestamp' => $this->text->getDateBlock(true),
             'message' => $this->text->getPreparedText(),
             'type' => $this->option->getErrorType(),
         ];

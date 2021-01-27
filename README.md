@@ -79,7 +79,7 @@ Now if error occurs, json will be sent to `http://my-site.com/webhook` endpoint 
 
 ```json
 {
-    "timestamp": 1611675632,
+    "timestamp": "1611675632",
     "message": "Undefined variable at line 24 in \\App\\Models\\User class.",
     "type": "error"
 }
@@ -103,15 +103,13 @@ Now you'll get json like this:
 
 ```json
 {
-    "time": 1611675632,
+    "time": "1611675632",
     "errorMessage": "Error message: Undefined variable at line 24 in \\App\\Models\\User class.",
     "errorType": "error",
     "token": "29d62x7g656e6f9"
 }
 ```
  Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error timestamp.
-
-> YOU CANNOT ADD ANY ADDITIONAL INFORMATION TO THE JsonFieldValue::TIMESTAMP VALUE LIKE WE DID WITH ERRORMESSAGE, BECAUSE TIMESTAMP WILL BE CAST TO INTEGER.
 
 ## Get started
 
