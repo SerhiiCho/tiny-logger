@@ -106,14 +106,16 @@ class LoggerTest extends TestCase
         Logger::error('Some log message goes here');
         $this->assertFileExists($this->file_name);
 
-        $this->assertTrue(method_exists(Logger::singleton(), 'emergency'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'alert'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'critical'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'error'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'warning'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'notice'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'info'));
-        $this->assertTrue(method_exists(Logger::singleton(), 'debug'));
+        $instance = Logger::singleton();
+
+        $this->assertTrue(method_exists($instance, 'emergency'));
+        $this->assertTrue(method_exists($instance, 'alert'));
+        $this->assertTrue(method_exists($instance, 'critical'));
+        $this->assertTrue(method_exists($instance, 'error'));
+        $this->assertTrue(method_exists($instance, 'warning'));
+        $this->assertTrue(method_exists($instance, 'notice'));
+        $this->assertTrue(method_exists($instance, 'info'));
+        $this->assertTrue(method_exists($instance, 'debug'));
     }
 
     /** @test */
