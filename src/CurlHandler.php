@@ -28,26 +28,26 @@ class CurlHandler
      */
     private $option;
 
-    public function __construct(string $url, ?array $json, Text $text, Option $option)
+    /**
+     * @var \Curl\Curl
+     */
+    private $curl;
+
+    public function __construct(string $url, ?array $json, Text $text, Option $option, Curl $curl)
     {
         $this->url = $url;
         $this->json = $json;
         $this->text = $text;
         $this->option = $option;
+        $this->curl = $curl;
     }
 
     public function makeRequest(): void
     {
-        $curl = $this->getCurl();
         $json = $this->json ? $this->createCustomJson() : $this->createDefaultJson();
 
-        $curl->setHeader('Content-Type', 'application/json');
-        $curl->post($this->url, $json, true);
-    }
-
-    public function getCurl(): Curl
-    {
-        return new Curl();
+        $this->curl->setHeader('Content-Type', 'application/json');
+        $this->curl->post($this->url, $json, true);
     }
 
     private function createDefaultJson(): array

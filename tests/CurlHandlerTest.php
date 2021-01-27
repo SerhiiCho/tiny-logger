@@ -31,10 +31,9 @@ class CurlHandlerTest extends TestCase
 
         $curl_handler = $this->getMockBuilder(CurlHandler::class)
             ->setMethodsExcept(['makeRequest'])
-            ->setConstructorArgs([$url, null, $text, $option])
+            ->setConstructorArgs([$url, null, $text, $option, $curl])
             ->getMock();
 
-        $curl_handler->expects($this->once())->method('getCurl')->willReturn($curl);
         $curl_handler->makeRequest();
     }
 
@@ -64,10 +63,9 @@ class CurlHandlerTest extends TestCase
 
         $curl_handler = $this->getMockBuilder(CurlHandler::class)
             ->setMethodsExcept(['makeRequest'])
-            ->setConstructorArgs([$url, $input_json, $text, $option])
+            ->setConstructorArgs([$url, $input_json, $text, $option, $curl])
             ->getMock();
 
-        $curl_handler->expects($this->once())->method('getCurl')->willReturn($curl);
         $curl_handler->makeRequest();
     }
 }

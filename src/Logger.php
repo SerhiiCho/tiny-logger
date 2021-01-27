@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
+use Curl\Curl;
 use Exception;
 
 final class Logger
