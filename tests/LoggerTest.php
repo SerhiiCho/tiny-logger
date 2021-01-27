@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Serhii\Tests;
 
+use Curl\Curl;
 use Error;
 use Exception;
 use ParseError;
 use PHPUnit\Framework\TestCase;
 use Serhii\TinyLogger\Logger;
+use Serhii\TinyLogger\Option;
+use Serhii\TinyLogger\Text;
 use TypeError;
+
+use function SandFox\Debug\call_private_method;
 
 class LoggerTest extends TestCase
 {
@@ -191,5 +196,21 @@ class LoggerTest extends TestCase
         Logger::write(null, 'info');
         $log_file_content = \file_get_contents($this->file_name);
         $this->assertStringContainsString('null', $log_file_content);
+    }
+
+    /** @test */
+    public function makePostRequestIfOptionIsEnabled_makes_request_if_option_is_enabled(): void
+    {
+        Logger::enablePostRequest('http://my-site.io/web-hook');
+
+        $text = new Text('Error message');
+        $option = new Option('info');
+
+        $curl = $this->createMock(Curl::class);
+
+        $curl->expects($this->once())->method('setHeader');
+        $curl->expects($this->once())->method('post');
+
+        call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
 }

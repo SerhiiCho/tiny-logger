@@ -103,16 +103,25 @@ final class Logger
         $option = new Option($options);
 
         $self->createFileIfNotExist();
-        $result = $self->prepareTextForLogging($text, $option);
+        $self->makePostRequestIfOptionIsEnabled($text, $option, new Curl());
 
-        if ($self->post_request_url) {
-            $curl = new CurlHandler($self->post_request_url, $self->post_request_json, $text, $option);
-            $curl->makeRequest();
-        }
+        $result = $self->prepareTextForLogging($text, $option);
 
         if ($self->file_path) {
             \file_put_contents($self->file_path, $result, FILE_APPEND);
         }
+    }
+
+    private function makePostRequestIfOptionIsEnabled(Text $text, Option $option, Curl $curl): void
+    {
+        $self = self::$instance;
+
+        if (!$self->post_request_url) {
+            return;
+        }
+
+        $handler = new CurlHandler($self->post_request_url, $self->post_request_json, $text, $option, $curl);
+        $handler->makeRequest();
     }
 
     /**
