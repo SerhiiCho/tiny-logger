@@ -19,7 +19,7 @@ Logger::setPath('logs/errors.log'); // simple format
 Logger::setPath('logs/%s.log', 'errors'); // sprintf format
 ```
 
-> NOTE: If you want to use logger in a cron scripts or WordPress hook, you need to call `setPath()` at the very first step of the script execution, it means that your project might have multiple places where you need to set path for your logs. If you don't want to call `setPath()` you can just pass the path to a `tiny_log()` function as a third argument. _See an example in Usage section._
+> NOTE: If you want to use logger in a cron scripts or something like WordPress hook, you need to call `setPath()` at the very first step of the script execution, it means that your project might have multiple places where you need to set path for your logs. If you don't want to call `setPath()` you can just pass the path to a `tiny_log()` function as a third argument. _See an example in Usage section._
 
 ## Usage
 
@@ -111,7 +111,7 @@ Now you'll get json like this:
 ```
 Each JsonFieldValue constant will be replaced with its value. For example JsonFieldValue::MESSAGE will be replaced with the error message. JsonFieldValue::TIMESTAMP will be replaced with error timestamp.
 
-> NOTE: If you want to use logger in a cron scripts or WordPress hook, you need to call `enablePostRequest` at the very first step of the script execution.
+> NOTE: If you want to use logger in a cron scripts or something like WordPress hook, you need to call `enablePostRequest` at the very first step of the script execution.
 
 ## Get started
 
