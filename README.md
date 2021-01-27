@@ -48,12 +48,12 @@ Logger::setPath('logs/debug.log')->debug('Some error message');
 
 ## Options
 
-For using one of the available options you can optionally pass certain flag to `tiny_log()` function as the second argument. If you also need to pass error type just separate them with the pipe `|` character. See the example:
+For using one of the available options you can optionally pass certain flag to `tiny_log()` function as the second argument. If you also need to pass error type just separate them with the pipe `|` character. See the example with option `pos`:
 
 ```php
-tiny_log('Some error message', 'option'); // just passing option
-tiny_log('Some error message', 'option|error'); // with error type 'error'
-tiny_log('Some error message', 'option|info'); // with error type 'info'
+tiny_log('Some error message', 'pos'); // just passing option
+tiny_log('Some error message', 'pos|error'); // 'pos' option with error type 'error'
+tiny_log('Some error message', 'pos|info'); // 'pos' option with error type 'info'
 ```
 
 #### Available options
