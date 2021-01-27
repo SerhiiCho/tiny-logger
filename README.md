@@ -67,7 +67,7 @@ tiny_log('Some error message', 'pos|info'); // 'pos' option with error type 'inf
 
 ## Send logs with POST request
 
-Tiny logger allows you to send logs as json object on a specific endpoint. In order to enable this option you need to call `enablePostRequest` method on `Logger` class. To disable this method call `disablePostRequest` method.
+Tiny logger allows you to send logs as a json object on a specific endpoint. To enable this option you need to call `enablePostRequest` method on `Logger` class. To disable POST request use `disablePostRequest` method.
 
 ```php
 use Serhii\TinyLogger\Logger;
