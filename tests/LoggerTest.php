@@ -28,6 +28,7 @@ class LoggerTest extends TestCase
     public function tearDown(): void
     {
         \file_exists($this->file_name) ? \unlink($this->file_name) : null;
+        Logger::disablePostRequest();
     }
 
     /** @test */
@@ -201,8 +202,6 @@ class LoggerTest extends TestCase
     /** @test */
     public function makePostRequestIfOptionIsEnabled_makes_request_if_option_is_enabled(): void
     {
-        Logger::enablePostRequest('http://my-site.io/web-hook');
-
         $text = new Text('Error message');
         $option = new Option('info');
 
@@ -210,6 +209,39 @@ class LoggerTest extends TestCase
 
         $curl->expects($this->once())->method('setHeader');
         $curl->expects($this->once())->method('post');
+
+        Logger::enablePostRequest('http://my-site.io/web-hook');
+
+        call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
+    }
+
+    /** @test */
+    public function makePostRequestIfOptionIsEnabled_doesnt_make_request_if_option_is_not_enabled(): void
+    {
+        $text = new Text('My error message');
+        $option = new Option('error');
+
+        $curl = $this->createMock(Curl::class);
+
+        $curl->expects($this->never())->method('setHeader');
+        $curl->expects($this->never())->method('post');
+
+        call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
+    }
+
+    /** @test */
+    public function disablePostRequest_disables_post_request_after_option_has_been_enabled_enabled(): void
+    {
+        $text = new Text('Some error message');
+        $option = new Option('debug');
+
+        $curl = $this->createMock(Curl::class);
+
+        $curl->expects($this->never())->method('setHeader');
+        $curl->expects($this->never())->method('post');
+
+        Logger::enablePostRequest('http://site.io/web-hook');
+        Logger::disablePostRequest();
 
         call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
