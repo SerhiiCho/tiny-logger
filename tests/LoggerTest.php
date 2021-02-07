@@ -35,7 +35,7 @@ class LoggerTest extends TestCase
     public function write_method_creates_log_file(): void
     {
         $this->assertFileNotExists($this->file_name);
-        Logger::write('Some log message goes here');
+        Logger::new()->write('Some log message goes here');
         $this->assertFileExists($this->file_name);
     }
 
@@ -58,8 +58,8 @@ class LoggerTest extends TestCase
     /** @test */
     public function write_method_writes_given_text_to_a_log_file(): void
     {
-        Logger::write('Nice text is here');
-        Logger::write(null);
+        Logger::new()->write('Nice text is here');
+        Logger::new()->write(null);
         $log_file_content = \file_get_contents($this->file_name);
         $this->assertStringContainsString('] error: Nice text is here', $log_file_content);
         $this->assertStringContainsString('null', $log_file_content);
@@ -68,7 +68,7 @@ class LoggerTest extends TestCase
     /** @test */
     public function write_method_writes_given_text_to_a_log_file_with_different_type(): void
     {
-        Logger::write('Nice text is here', 'debug');
+        Logger::new()->write('Nice text is here', 'debug');
         $log_file_content = \file_get_contents($this->file_name);
         $this->assertStringContainsString('] debug: Nice text is here', $log_file_content);
     }
@@ -77,7 +77,7 @@ class LoggerTest extends TestCase
     public function write_method_can_except_array(): void
     {
         $array = ['hello' => 'world'];
-        Logger::write($array, 'info');
+        Logger::new()->write($array, 'info');
 
         $log_file_content = \file_get_contents($this->file_name);
 
@@ -89,7 +89,7 @@ class LoggerTest extends TestCase
     public function write_method_can_except_object(): void
     {
         $obj = (object) ['hello' => 'world'];
-        Logger::write($obj, 'info');
+        Logger::new()->write($obj, 'info');
 
         $log_file_content = \file_get_contents($this->file_name);
 
@@ -109,7 +109,7 @@ class LoggerTest extends TestCase
     public function Logger_has_method_helpers(): void
     {
         $this->assertFileNotExists($this->file_name);
-        Logger::error('Some log message goes here');
+        Logger::new()->error('Some log message goes here');
         $this->assertFileExists($this->file_name);
 
         $instance = Logger::new();
@@ -130,7 +130,7 @@ class LoggerTest extends TestCase
         try {
             throw new Exception('This is an exception');
         } catch (Exception $e) {
-            Logger::write($e);
+            Logger::new()->write($e);
         }
 
         $log_file_content = \file_get_contents($this->file_name);
@@ -144,7 +144,7 @@ class LoggerTest extends TestCase
         try {
             throw new Error('This is an error');
         } catch (Error $e) {
-            Logger::write($e);
+            Logger::new()->write($e);
         }
 
         $log_file_content = \file_get_contents($this->file_name);
@@ -158,7 +158,7 @@ class LoggerTest extends TestCase
         try {
             throw new ParseError('This is a parse error');
         } catch (Error $e) {
-            Logger::write($e);
+            Logger::new()->write($e);
         }
 
         $this->assertStringContainsString('This is a parse error', \file_get_contents($this->file_name));
@@ -170,7 +170,7 @@ class LoggerTest extends TestCase
         try {
             throw new TypeError('This is a type error');
         } catch (Error $e) {
-            Logger::write($e);
+            Logger::new()->write($e);
         }
 
         $this->assertStringContainsString('This is a type error', \file_get_contents($this->file_name));
@@ -179,14 +179,14 @@ class LoggerTest extends TestCase
     /** @test */
     public function write_method_can_except_boolean_true(): void
     {
-        Logger::write(true, 'info');
+        Logger::new()->write(true, 'info');
         $this->assertStringContainsString('true', \file_get_contents($this->file_name));
     }
 
     /** @test */
     public function write_method_can_except_boolean_false(): void
     {
-        Logger::write(false, 'info');
+        Logger::new()->write(false, 'info');
         $log_file_content = \file_get_contents($this->file_name);
         $this->assertStringContainsString('false', $log_file_content);
     }
@@ -194,7 +194,7 @@ class LoggerTest extends TestCase
     /** @test */
     public function write_method_can_except_null(): void
     {
-        Logger::write(null, 'info');
+        Logger::new()->write(null, 'info');
         $log_file_content = \file_get_contents($this->file_name);
         $this->assertStringContainsString('null', $log_file_content);
     }

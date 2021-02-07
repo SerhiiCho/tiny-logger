@@ -41,9 +41,9 @@ You can also use Logger class if you want. It will do the same as using function
 ```php
 use \Serhii\TinyLogger\Logger;
 
-Logger::error('Some error message');
-Logger::info('Some info message');
-Logger::debug('Some error message');
+Logger::new()->error('Some error message');
+Logger::new()->info('Some info message');
+Logger::new()->debug('Some error message');
 ````
 
 ## Options
