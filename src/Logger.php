@@ -63,6 +63,11 @@ final class Logger
         return self::new();
     }
 
+    public static function getPath(): ?string
+    {
+        return self::new()->file_path;
+    }
+
     /**
      * @param string $url endpoint where POST request is going to point
      * @param mixed[]|null $json If this argument is passed, POST data is going to be a json object with
