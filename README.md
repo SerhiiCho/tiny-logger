@@ -10,7 +10,7 @@ Lightweight composer package for file logging.
 
 ## Set file path
 
-For setting up the path for all log files you can call `setPath` method in your bootstrap file.
+For setting up the path globally for all the log files you can call `setPath` method in your bootstrap file.
 
 ```php
 use Serhii\TinyLogger\Logger;
@@ -27,13 +27,13 @@ This package comes with a function `tiny_log()` where second and third arguments
 
 ```php
 tiny_log('Some error message');
-// Output in file: [2020-01-12 04:09:16] error: Some error message
+// Output in file: [2020-01-12 04:09:16] error: Some error message.
 
 tiny_log('Some error message', 'info');
-// Output in file: [2020-01-12 04:09:16] info: Some error message
+// Output in file: [2020-01-12 04:09:16] info: Some error message.
 
 tiny_log('Some error message', 'debug', 'logs/debug.log');
-// It will create debug.log in logs directory.
+// If you don't need to set path globally, just pass file path as the third argument to the tiny_log function .
 ````
 
 You can also use Logger class if you want. It will do the same as using function.
