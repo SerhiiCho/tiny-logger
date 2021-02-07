@@ -13,7 +13,7 @@ if (!function_exists('tiny_log')) {
      */
     function tiny_log($message, ?string $log_type = 'error', ?string $file_path = null): void
     {
-        $logger = Logger::singleton();
+        $logger = Logger::new();
         $logger->write($message, $log_type, $file_path);
     }
 }

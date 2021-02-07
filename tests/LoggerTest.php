@@ -112,7 +112,7 @@ class LoggerTest extends TestCase
         Logger::error('Some log message goes here');
         $this->assertFileExists($this->file_name);
 
-        $instance = Logger::singleton();
+        $instance = Logger::new();
 
         $this->assertTrue(method_exists($instance, 'emergency'));
         $this->assertTrue(method_exists($instance, 'alert'));
@@ -212,7 +212,7 @@ class LoggerTest extends TestCase
 
         Logger::enablePostRequest('http://my-site.io/web-hook');
 
-        call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
+        call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
 
     /** @test */
@@ -226,7 +226,7 @@ class LoggerTest extends TestCase
         $curl->expects($this->never())->method('setHeader');
         $curl->expects($this->never())->method('post');
 
-        call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
+        call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
 
     /** @test */
@@ -243,6 +243,6 @@ class LoggerTest extends TestCase
         Logger::enablePostRequest('http://site.io/web-hook');
         Logger::disablePostRequest();
 
-        call_private_method(Logger::singleton(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
+        call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
 }

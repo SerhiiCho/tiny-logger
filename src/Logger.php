@@ -39,7 +39,7 @@ final class Logger
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
      * @return self
      */
-    public static function singleton(): self
+    public static function new(): self
     {
         return self::$instance ?? (self::$instance = new self());
     }
@@ -59,8 +59,8 @@ final class Logger
      */
     public static function setPath(string $path, ...$params): Logger
     {
-        self::singleton()->file_path = $params ? \sprintf($path, ...$params) : $path;
-        return self::singleton();
+        self::new()->file_path = $params ? \sprintf($path, ...$params) : $path;
+        return self::new();
     }
 
     /**
@@ -70,14 +70,14 @@ final class Logger
      */
     public static function enablePostRequest(string $url, ?array $json = null): void
     {
-        self::singleton()->post_request_url = $url;
-        self::singleton()->post_request_json = $json;
+        self::new()->post_request_url = $url;
+        self::new()->post_request_json = $json;
     }
 
     public static function disablePostRequest(): void
     {
-        self::singleton()->post_request_url = null;
-        self::singleton()->post_request_json = null;
+        self::new()->post_request_url = null;
+        self::new()->post_request_json = null;
     }
 
     /**
@@ -157,7 +157,7 @@ final class Logger
      */
     public function emergency($message): void
     {
-        self::singleton()->write($message, 'emergency');
+        self::new()->write($message, 'emergency');
     }
 
     /**
@@ -167,7 +167,7 @@ final class Logger
      */
     public function alert($message): void
     {
-        self::singleton()->write($message, 'alert');
+        self::new()->write($message, 'alert');
     }
 
     /**
@@ -177,7 +177,7 @@ final class Logger
      */
     public function critical($message): void
     {
-        self::singleton()->write($message, 'critical');
+        self::new()->write($message, 'critical');
     }
 
     /**
@@ -187,7 +187,7 @@ final class Logger
      */
     public function error($message): void
     {
-        self::singleton()->write($message, 'error');
+        self::new()->write($message, 'error');
     }
 
     /**
@@ -197,7 +197,7 @@ final class Logger
      */
     public function warning($message): void
     {
-        self::singleton()->write($message, 'warning');
+        self::new()->write($message, 'warning');
     }
 
     /**
@@ -207,7 +207,7 @@ final class Logger
      */
     public function notice($message): void
     {
-        self::singleton()->write($message, 'notice');
+        self::new()->write($message, 'notice');
     }
 
     /**
@@ -217,7 +217,7 @@ final class Logger
      */
     public function info($message): void
     {
-        self::singleton()->write($message, 'info');
+        self::new()->write($message, 'info');
     }
 
     /**
@@ -227,6 +227,6 @@ final class Logger
      */
     public function debug($message): void
     {
-        self::singleton()->write($message, 'debug');
+        self::new()->write($message, 'debug');
     }
 }
