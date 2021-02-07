@@ -10,4 +10,9 @@ test:
 check:
 	make cs
 	make stan
-	make phpunit
+	make test
+
+push:
+	make check
+	git pull origin HEAD
+	git push origin HEAD
