@@ -92,11 +92,12 @@ final class Logger
      * "debug", "warning" etc... Also you can pass option "pos".
      * To pass both option and log type separate them with pipe character
      * like that: "pos|info".
+     * @param string|null $file_path
      *
      * @throws \Exception Throws if file path wasn't wasn't provided by setPath()
      * method. Make sure that setPath() is called before the logging happens.
      */
-    public function write($input, ?string $options = 'error'): void
+    public function write($input, ?string $options = 'error', ?string $file_path = null): void
     {
         $self = self::$instance;
         $text = new Text($input);
@@ -107,8 +108,8 @@ final class Logger
 
         $result = $self->prepareTextForLogging($text, $option);
 
-        if ($self->file_path) {
-            \file_put_contents($self->file_path, $result, FILE_APPEND);
+        if ($file_path || $self->file_path) {
+            \file_put_contents($file_path ?? $self->file_path, $result, FILE_APPEND);
         }
     }
 
