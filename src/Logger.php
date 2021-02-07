@@ -154,7 +154,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function emergency($message): void
+    public function emergency($message): void
     {
         self::singleton()->write($message, 'emergency');
     }
@@ -164,7 +164,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function alert($message): void
+    public function alert($message): void
     {
         self::singleton()->write($message, 'alert');
     }
@@ -174,7 +174,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function critical($message): void
+    public function critical($message): void
     {
         self::singleton()->write($message, 'critical');
     }
@@ -184,7 +184,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function error($message): void
+    public function error($message): void
     {
         self::singleton()->write($message, 'error');
     }
@@ -194,7 +194,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function warning($message): void
+    public function warning($message): void
     {
         self::singleton()->write($message, 'warning');
     }
@@ -204,7 +204,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function notice($message): void
+    public function notice($message): void
     {
         self::singleton()->write($message, 'notice');
     }
@@ -214,7 +214,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function info($message): void
+    public function info($message): void
     {
         self::singleton()->write($message, 'info');
     }
@@ -224,7 +224,7 @@ final class Logger
      *
      * @throws \Exception
      */
-    public static function debug($message): void
+    public function debug($message): void
     {
         self::singleton()->write($message, 'debug');
     }
