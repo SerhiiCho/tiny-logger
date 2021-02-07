@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Serhii\TinyLogger;
 
+use Curl\Curl;
 use Exception;
 
 final class Logger
@@ -12,6 +13,16 @@ final class Logger
      * @var string|null
      */
     private $file_path;
+
+    /**
+     * @var mixed[]|null
+     */
+    private $post_request_json;
+
+    /**
+     * @var string|null
+     */
+    private $post_request_url;
 
     /**
      * @var self|null
@@ -26,11 +37,11 @@ final class Logger
      * Get singleton instance of the class.
      *
      * @see https://en.wikipedia.org/wiki/Singleton_pattern
-     * @return \Serhii\TinyLogger\Logger
+     * @return self
      */
-    public static function singleton(): Logger
+    public static function new(): self
     {
-        return static::$instance ?? (static::$instance = new static());
+        return self::$instance ?? (self::$instance = new self());
     }
 
     /**
@@ -48,9 +59,30 @@ final class Logger
      */
     public static function setPath(string $path, ...$params): Logger
     {
-        $instance = self::singleton();
-        $instance->file_path = $params ? \sprintf($path, ...$params) : $path;
-        return $instance;
+        self::new()->file_path = $params ? \sprintf($path, ...$params) : $path;
+        return self::new();
+    }
+
+    public static function getPath(): ?string
+    {
+        return self::new()->file_path;
+    }
+
+    /**
+     * @param string $url endpoint where POST request is going to point
+     * @param mixed[]|null $json If this argument is passed, POST data is going to be a json object with
+     * custom structure. You can name json fields and organize values however you want.
+     */
+    public static function enablePostRequest(string $url, ?array $json = null): void
+    {
+        self::new()->post_request_url = $url;
+        self::new()->post_request_json = $json;
+    }
+
+    public static function disablePostRequest(): void
+    {
+        self::new()->post_request_url = null;
+        self::new()->post_request_json = null;
     }
 
     /**
@@ -58,26 +90,44 @@ final class Logger
      * figure out what it needs to do with this data in order to save it
      * into a file.
      *
-     * @param mixed $text Text that will be written as a context. Can be any type.
+     * @param mixed $input Text that will be written as a context. Can be any type.
      * If Throwable object is passed, it will be logged with whole stack trace,
      * error message and line number.
      * @param string|null $options Options can be log type like "error",
      * "debug", "warning" etc... Also you can pass option "pos".
      * To pass both option and log type separate them with pipe character
      * like that: "pos|info".
+     * @param string|null $file_path
      *
      * @throws \Exception Throws if file path wasn't wasn't provided by setPath()
      * method. Make sure that setPath() is called before the logging happens.
      */
-    public function write($text, ?string $options = 'error'): void
+    public function write($input, ?string $options = 'error', ?string $file_path = null): void
     {
-        $instance = self::singleton();
-        $instance->createFileIfNotExist();
-        $input = $instance->prepareTextForLogging(new Text($text), new Option($options ?? 'error'));
+        $self = self::new();
+        $text = new Text($input);
+        $option = new Option($options ?? 'error');
 
-        if ($instance->file_path) {
-            \file_put_contents($instance->file_path, $input, FILE_APPEND);
+        $self->createFileIfNotExist();
+        $self->makePostRequestIfOptionIsEnabled($text, $option, new Curl());
+
+        $result = $self->prepareTextForLogging($text, $option);
+
+        if ($file_path || $self->file_path) {
+            \file_put_contents($file_path ?? $self->file_path ?? '', $result, FILE_APPEND);
         }
+    }
+
+    private function makePostRequestIfOptionIsEnabled(Text $text, Option $option, Curl $curl): void
+    {
+        $self = self::new();
+
+        if (!$self->post_request_url) {
+            return;
+        }
+
+        $handler = new CurlHandler($self->post_request_url, $self->post_request_json, $text, $option, $curl);
+        $handler->makeRequest();
     }
 
     /**
@@ -96,9 +146,6 @@ final class Logger
 
     private function prepareTextForLogging(Text $text, Option $option): string
     {
-        $text->prepare();
-        $option->prepare();
-
         $result = "{$text->getDateBlock()} {$option->getErrorType()}: {$text->getPreparedText()}" . PHP_EOL;
 
         if ($option->has('pos')) {
@@ -115,7 +162,7 @@ final class Logger
      */
     public function emergency($message): void
     {
-        self::singleton()->write($message, 'emergency');
+        self::new()->write($message, 'emergency');
     }
 
     /**
@@ -125,7 +172,7 @@ final class Logger
      */
     public function alert($message): void
     {
-        self::singleton()->write($message, 'alert');
+        self::new()->write($message, 'alert');
     }
 
     /**
@@ -135,7 +182,7 @@ final class Logger
      */
     public function critical($message): void
     {
-        self::singleton()->write($message, 'critical');
+        self::new()->write($message, 'critical');
     }
 
     /**
@@ -145,7 +192,7 @@ final class Logger
      */
     public function error($message): void
     {
-        self::singleton()->write($message, 'error');
+        self::new()->write($message, 'error');
     }
 
     /**
@@ -155,7 +202,7 @@ final class Logger
      */
     public function warning($message): void
     {
-        self::singleton()->write($message, 'warning');
+        self::new()->write($message, 'warning');
     }
 
     /**
@@ -165,7 +212,7 @@ final class Logger
      */
     public function notice($message): void
     {
-        self::singleton()->write($message, 'notice');
+        self::new()->write($message, 'notice');
     }
 
     /**
@@ -175,7 +222,7 @@ final class Logger
      */
     public function info($message): void
     {
-        self::singleton()->write($message, 'info');
+        self::new()->write($message, 'info');
     }
 
     /**
@@ -185,6 +232,6 @@ final class Logger
      */
     public function debug($message): void
     {
-        self::singleton()->write($message, 'debug');
+        self::new()->write($message, 'debug');
     }
 }

@@ -14,11 +14,6 @@ final class Text
     private $input_text;
 
     /**
-     * @var string|bool|null
-     */
-    private $prepared_text;
-
-    /**
      * @param mixed $input_text
      */
     public function __construct($input_text)
@@ -26,42 +21,32 @@ final class Text
         $this->input_text = $input_text;
     }
 
-    public function prepare(): self
+    public function getPreparedText(): string
     {
         if ($this->input_text instanceof Throwable) {
             $e = $this->input_text;
             $trace = $e->getTraceAsString();
-            $this->prepared_text = "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
-            return $this;
+            return "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
         }
 
         if (\is_float($this->input_text) || \is_int($this->input_text)) {
-            $this->prepared_text = (string) $this->input_text;
-            return $this;
+            return (string) $this->input_text;
         }
 
         if (\is_array($this->input_text) || \is_object($this->input_text)) {
             $encoded = \json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            $this->prepared_text = \is_string($encoded) ? $encoded : '';
-            return $this;
+            return \is_string($encoded) ? $encoded : '';
         }
 
-        $this->prepared_text = $this->input_text;
-
-        return $this;
-    }
-
-    public function getPreparedText(): string
-    {
-        if ($this->prepared_text === true) {
+        if ($this->input_text === true) {
             return 'true';
         }
 
-        if ($this->prepared_text === false) {
+        if ($this->input_text === false) {
             return 'false';
         }
 
-        return $this->prepared_text ?? 'null';
+        return $this->input_text ?? 'null';
     }
 
     public function getTraceLine(): string
@@ -75,8 +60,8 @@ final class Text
         return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
     }
 
-    public function getDateBlock(): string
+    public function getDateBlock(?bool $timestamp = null): string
     {
-        return '[' . \date('Y-m-d H:i:s') . ']';
+        return $timestamp ? (string) time() : '[' . \date('Y-m-d H:i:s') . ']';
     }
 }

@@ -5,14 +5,17 @@
     "keywords": ["logger", "library"],
     "type": "library",
     "require": {
-        "php": "^7.1",
-        "ext-json": "*"
+        "php": "^7.2|^8.0",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "curl/curl": "^2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5",
+        "phpunit/phpunit": "^8.0",
         "symfony/var-dumper": "^4.2",
         "phpstan/phpstan": "0.12.x-dev",
-        "squizlabs/php_codesniffer": "^4.0"
+        "squizlabs/php_codesniffer": "^4.0",
+        "sandfoxme/private-access": "^1.3"
     },
     "license": "MIT",
     "authors": [
