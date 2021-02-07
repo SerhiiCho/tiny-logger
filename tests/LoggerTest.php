@@ -18,25 +18,30 @@ use function SandFox\Debug\call_private_method;
 
 class LoggerTest extends TestCase
 {
-    public $file_name = 'logs-test.log';
+    public $file_path = 'logs-test.log';
 
     public function setUp(): void
     {
-        Logger::setPath($this->file_name);
+        Logger::setPath($this->file_path);
     }
 
     public function tearDown(): void
     {
-        \file_exists($this->file_name) ? \unlink($this->file_name) : null;
+        $this->removeFile($this->file_path);
         Logger::disablePostRequest();
+    }
+
+    private function removeFile(string $file_path): void
+    {
+        \file_exists($file_path) ? \unlink($file_path) : null;
     }
 
     /** @test */
     public function write_method_creates_log_file(): void
     {
-        $this->assertFileNotExists($this->file_name);
+        $this->assertFileNotExists($this->file_path);
         Logger::new()->write('Some log message goes here');
-        $this->assertFileExists($this->file_name);
+        $this->assertFileExists($this->file_path);
     }
 
     /** @test */
@@ -60,7 +65,7 @@ class LoggerTest extends TestCase
     {
         Logger::new()->write('Nice text is here');
         Logger::new()->write(null);
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('] error: Nice text is here', $log_file_content);
         $this->assertStringContainsString('null', $log_file_content);
     }
@@ -69,7 +74,7 @@ class LoggerTest extends TestCase
     public function write_method_writes_given_text_to_a_log_file_with_different_type(): void
     {
         Logger::new()->write('Nice text is here', 'debug');
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('] debug: Nice text is here', $log_file_content);
     }
 
@@ -79,7 +84,7 @@ class LoggerTest extends TestCase
         $array = ['hello' => 'world'];
         Logger::new()->write($array, 'info');
 
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
 
         $json = \json_encode($array, JSON_PRETTY_PRINT);
         $this->assertStringContainsString($json, $log_file_content);
@@ -91,7 +96,7 @@ class LoggerTest extends TestCase
         $obj = (object) ['hello' => 'world'];
         Logger::new()->write($obj, 'info');
 
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
 
         $json = \json_encode($obj, JSON_PRETTY_PRINT);
         $this->assertStringContainsString($json, $log_file_content);
@@ -100,17 +105,17 @@ class LoggerTest extends TestCase
     /** @test */
     public function function_creates_log_file(): void
     {
-        $this->assertFileNotExists($this->file_name);
+        $this->assertFileNotExists($this->file_path);
         tiny_log('Some log message goes here');
-        $this->assertFileExists($this->file_name);
+        $this->assertFileExists($this->file_path);
     }
 
     /** @test */
     public function Logger_has_method_helpers(): void
     {
-        $this->assertFileNotExists($this->file_name);
+        $this->assertFileNotExists($this->file_path);
         Logger::new()->error('Some log message goes here');
-        $this->assertFileExists($this->file_name);
+        $this->assertFileExists($this->file_path);
 
         $instance = Logger::new();
 
@@ -133,7 +138,7 @@ class LoggerTest extends TestCase
             Logger::new()->write($e);
         }
 
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
 
         $this->assertStringContainsString('This is an exception', $log_file_content);
     }
@@ -147,7 +152,7 @@ class LoggerTest extends TestCase
             Logger::new()->write($e);
         }
 
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
 
         $this->assertStringContainsString('This is an error', $log_file_content);
     }
@@ -161,7 +166,7 @@ class LoggerTest extends TestCase
             Logger::new()->write($e);
         }
 
-        $this->assertStringContainsString('This is a parse error', \file_get_contents($this->file_name));
+        $this->assertStringContainsString('This is a parse error', \file_get_contents($this->file_path));
     }
 
     /** @test */
@@ -173,21 +178,21 @@ class LoggerTest extends TestCase
             Logger::new()->write($e);
         }
 
-        $this->assertStringContainsString('This is a type error', \file_get_contents($this->file_name));
+        $this->assertStringContainsString('This is a type error', \file_get_contents($this->file_path));
     }
 
     /** @test */
     public function write_method_can_except_boolean_true(): void
     {
         Logger::new()->write(true, 'info');
-        $this->assertStringContainsString('true', \file_get_contents($this->file_name));
+        $this->assertStringContainsString('true', \file_get_contents($this->file_path));
     }
 
     /** @test */
     public function write_method_can_except_boolean_false(): void
     {
         Logger::new()->write(false, 'info');
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('false', $log_file_content);
     }
 
@@ -195,7 +200,7 @@ class LoggerTest extends TestCase
     public function write_method_can_except_null(): void
     {
         Logger::new()->write(null, 'info');
-        $log_file_content = \file_get_contents($this->file_name);
+        $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('null', $log_file_content);
     }
 
@@ -244,5 +249,33 @@ class LoggerTest extends TestCase
         Logger::disablePostRequest();
 
         call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
+    }
+    
+    /** @test */
+    public function you_can_pass_file_path_as_the_third_argument_in_function_and_it_will_not_change_global_file_path(): void
+    {
+        $file_path = 'nice.log';
+
+        tiny_log('Text', 'info', $file_path);
+        $this->assertSame($this->file_path, Logger::getPath());
+
+        $this->removeFile($file_path);
+    }
+
+    /** @test */
+    public function you_can_pass_file_path_as_the_third_argument_in_write_method_and_it_will_not_change_global_file_path(): void
+    {
+        $file_path = 'nice.log';
+
+        Logger::new()->write('Text', 'info', $file_path);
+        $this->assertSame($this->file_path, Logger::getPath());
+
+        $this->removeFile($file_path);
+    }
+
+    /** @test */
+    public function getPath_method_returns_file_path(): void
+    {
+        $this->assertSame($this->file_path, Logger::getPath());
     }
 }
