@@ -104,9 +104,9 @@ final class Logger
      */
     public function write($input, ?string $options = 'error', ?string $file_path = null): void
     {
-        $self = self::$instance;
+        $self = self::new();
         $text = new Text($input);
-        $option = new Option($options);
+        $option = new Option($options ?? 'error');
 
         $self->createFileIfNotExist();
         $self->makePostRequestIfOptionIsEnabled($text, $option, new Curl());
@@ -114,13 +114,13 @@ final class Logger
         $result = $self->prepareTextForLogging($text, $option);
 
         if ($file_path || $self->file_path) {
-            \file_put_contents($file_path ?? $self->file_path, $result, FILE_APPEND);
+            \file_put_contents($file_path ?? $self->file_path ?? '', $result, FILE_APPEND);
         }
     }
 
     private function makePostRequestIfOptionIsEnabled(Text $text, Option $option, Curl $curl): void
     {
-        $self = self::$instance;
+        $self = self::new();
 
         if (!$self->post_request_url) {
             return;

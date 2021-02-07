@@ -33,6 +33,15 @@ class CurlHandler
      */
     private $curl;
 
+    /**
+     * CurlHandler constructor.
+     *
+     * @param string $url
+     * @param mixed[]|null $json
+     * @param \Serhii\TinyLogger\Text $text
+     * @param \Serhii\TinyLogger\Option $option
+     * @param \Curl\Curl $curl
+     */
     public function __construct(string $url, ?array $json, Text $text, Option $option, Curl $curl)
     {
         $this->url = $url;
@@ -50,6 +59,9 @@ class CurlHandler
         $this->curl->post($this->url, $json, true);
     }
 
+    /**
+     * @return string[]
+     */
     private function createDefaultJson(): array
     {
         return [
@@ -59,10 +71,14 @@ class CurlHandler
         ];
     }
 
+    /**
+     * @return string[]
+     */
     private function createCustomJson(): array
     {
         $search = [JsonFieldValue::TIMESTAMP, JsonFieldValue::MESSAGE, JsonFieldValue::ERROR_TYPE];
         $replace = [$this->text->getDateBlock(true), $this->text->getPreparedText(), $this->option->getErrorType()];
-        return str_replace($search, $replace, $this->json);
+
+        return str_replace($search, $replace, $this->json ?? []);
     }
 }
