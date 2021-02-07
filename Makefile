@@ -4,7 +4,7 @@ stan:
 cs:
 	./vendor/bin/phpcs src logger.php --colors -p
 
-phpunit:
+test:
 	./vendor/bin/phpunit --colors
 
 check:
