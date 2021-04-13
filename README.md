@@ -1,5 +1,3 @@
-<h1 align="center">Tiny Logger</h1>
-
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FSerhiiCho%2Ftiny-logger%2Fbadge&style=flat)](https://actions-badge.atrox.dev/SerhiiCho/tiny-logger/goto)
 [![Latest Stable Version](https://poser.pugx.org/serhii/tiny-logger/v/stable)](https://packagist.org/packages/serhii/tiny-logger)
 [![Total Downloads](https://poser.pugx.org/serhii/tiny-logger/downloads)](https://packagist.org/packages/serhii/tiny-logger)
