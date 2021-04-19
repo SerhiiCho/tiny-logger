@@ -32,7 +32,7 @@ tiny_log('Some error message', 'info');
 
 tiny_log('Some error message', 'debug', 'logs/debug.log');
 // If you don't need to set path globally, just pass file path as the third argument to the tiny_log function .
-````
+```
 
 You can also use Logger class if you want. It will do the same as using function.
 
