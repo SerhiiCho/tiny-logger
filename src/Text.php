@@ -29,13 +29,13 @@ final class Text
             return "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
         }
 
-        if (\is_float($this->input_text) || \is_int($this->input_text)) {
-            return (string) $this->input_text;
-        }
-
         if (\is_array($this->input_text) || \is_object($this->input_text)) {
             $encoded = \json_encode($this->input_text, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return \is_string($encoded) ? $encoded : '';
+        }
+
+        if (\is_float($this->input_text) || \is_int($this->input_text)) {
+            return (string) $this->input_text;
         }
 
         if ($this->input_text === true) {
