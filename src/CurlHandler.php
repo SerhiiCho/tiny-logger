@@ -14,7 +14,7 @@ class CurlHandler
     private $url;
 
     /**
-     * @var array|null
+     * @var array<int, mixed>|null
      */
     private $json;
 
@@ -37,7 +37,7 @@ class CurlHandler
      * CurlHandler constructor.
      *
      * @param string $url
-     * @param array|null $json
+     * @param array<int, mixed>|null $json
      * @param Text $text
      * @param Option $option
      * @param Curl $curl

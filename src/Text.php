@@ -53,11 +53,14 @@ final class Text
     {
         $trace = \debug_backtrace()[2];
 
-        if ((bool) \preg_match('!/logger\.php!', $trace['file'])) {
+        if (\preg_match('!/logger\.php!', $trace['file'] ?? '')) {
             $trace = \debug_backtrace()[3];
         }
 
-        return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
+        $line = $trace['line'] ?? '';
+        $file = $trace['file'] ?? '';
+
+        return ">>> {$file} on line: {$line}".PHP_EOL;
     }
 
     public function getDateBlock(?bool $timestamp = null): string

@@ -34,7 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Serhii\\Tests\\": "ests"
+            "Serhii\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev"

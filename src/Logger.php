@@ -15,7 +15,7 @@ final class Logger
     private $file_path;
 
     /**
-     * @var array|null
+     * @var array<int, mixed>|null
      */
     private $post_request_json;
 
@@ -70,7 +70,7 @@ final class Logger
 
     /**
      * @param string $url endpoint where POST request is going to point
-     * @param array|null $json If this argument is passed, POST data is going to be a json object with
+     * @param array<int, mixed>|null $json If this argument is passed, POST data is going to be a json object with
      * custom structure. You can name json fields and organize values however you want.
      */
     public static function enablePostRequest(string $url, ?array $json = null): void
