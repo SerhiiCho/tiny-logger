@@ -60,7 +60,7 @@ final class Text
         $line = $trace['line'] ?? '';
         $file = $trace['file'] ?? '';
 
-        return ">>> {$file} on line: {$line}".PHP_EOL;
+        return ">>> {$file} on line: {$line}" . PHP_EOL;
     }
 
     public function getDateBlock(?bool $timestamp = null): string
