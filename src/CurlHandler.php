@@ -14,22 +14,22 @@ class CurlHandler
     private $url;
 
     /**
-     * @var mixed[]|null
+     * @var array|null
      */
     private $json;
 
     /**
-     * @var \Serhii\TinyLogger\Text
+     * @var Text
      */
     private $text;
 
     /**
-     * @var \Serhii\TinyLogger\Option
+     * @var Option
      */
     private $option;
 
     /**
-     * @var \Curl\Curl
+     * @var Curl
      */
     private $curl;
 
@@ -37,10 +37,10 @@ class CurlHandler
      * CurlHandler constructor.
      *
      * @param string $url
-     * @param mixed[]|null $json
-     * @param \Serhii\TinyLogger\Text $text
-     * @param \Serhii\TinyLogger\Option $option
-     * @param \Curl\Curl $curl
+     * @param array|null $json
+     * @param Text $text
+     * @param Option $option
+     * @param Curl $curl
      */
     public function __construct(string $url, ?array $json, Text $text, Option $option, Curl $curl)
     {

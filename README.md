@@ -4,7 +4,9 @@
 [![License](https://poser.pugx.org/serhii/tiny-logger/license)](https://packagist.org/packages/serhii/tiny-logger)
 <a href="https://php.net/" rel="nofollow"><img src="https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg" alt="Minimum PHP Version" style="max-width:100%;"></a>
 
-Lightweight composer package for file logging.
+Lightweight composer package for file logging with ability to send errors with webhook.
+
+[Usage example](https://replit.com/@SerhiiCho/Usage-of-tiny-logger-package#public/index.php)
 
 ## Set file path
 

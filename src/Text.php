@@ -26,7 +26,7 @@ final class Text
         if ($this->input_text instanceof Throwable) {
             $e = $this->input_text;
             $trace = $e->getTraceAsString();
-            return "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
+            return "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n{$trace}";
         }
 
         if (\is_array($this->input_text) || \is_object($this->input_text)) {

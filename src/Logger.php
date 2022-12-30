@@ -15,7 +15,7 @@ final class Logger
     private $file_path;
 
     /**
-     * @var mixed[]|null
+     * @var array|null
      */
     private $post_request_json;
 
@@ -55,7 +55,7 @@ final class Logger
 
      * @param mixed ...$params
      *
-     * @return \Serhii\TinyLogger\Logger
+     * @return Logger
      */
     public static function setPath(string $path, ...$params): Logger
     {
@@ -70,7 +70,7 @@ final class Logger
 
     /**
      * @param string $url endpoint where POST request is going to point
-     * @param mixed[]|null $json If this argument is passed, POST data is going to be a json object with
+     * @param array|null $json If this argument is passed, POST data is going to be a json object with
      * custom structure. You can name json fields and organize values however you want.
      */
     public static function enablePostRequest(string $url, ?array $json = null): void
@@ -99,10 +99,10 @@ final class Logger
      * like that: "pos|info".
      * @param string|null $file_path
      *
-     * @throws \Exception Throws if file path wasn't wasn't provided by setPath()
+     * @throws Exception Throws if file path wasn't provided by setPath()
      * method. Make sure that setPath() is called before the logging happens.
      */
-    public function write($input, ?string $options = 'error', ?string $file_path = null): void
+    public function write($input, ?string $options = null, ?string $file_path = null): void
     {
         $self = self::new();
         $text = new Text($input);
@@ -131,11 +131,11 @@ final class Logger
     }
 
     /**
-     * @throws \Exception Throws if file path wasn't wasn't provided by setPath() method.
+     * @throws Exception Throws if file path wasn't provided by setPath() method.
      */
     private function createFileIfNotExist(): void
     {
-        if (\is_null($this->file_path)) {
+        if ($this->file_path === null) {
             throw new Exception('File path for logging output is not specified');
         }
 
@@ -158,7 +158,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function emergency($message): void
     {
@@ -168,7 +168,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function alert($message): void
     {
@@ -178,7 +178,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function critical($message): void
     {
@@ -188,7 +188,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function error($message): void
     {
@@ -198,7 +198,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function warning($message): void
     {
@@ -208,7 +208,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function notice($message): void
     {
@@ -218,7 +218,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function info($message): void
     {
@@ -228,7 +228,7 @@ final class Logger
     /**
      * @param mixed $message
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function debug($message): void
     {
