@@ -13,7 +13,7 @@
     "require-dev": {
         "phpunit/phpunit": "^8.0",
         "symfony/var-dumper": "^4.2",
-        "phpstan/phpstan": "0.12.x-dev",
+        "phpstan/phpstan": "^1.8",
         "squizlabs/php_codesniffer": "^4.0",
         "sandfoxme/private-access": "^1.3"
     },
@@ -34,7 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Serhii\\Tests\\": "ests"
+            "Serhii\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev"

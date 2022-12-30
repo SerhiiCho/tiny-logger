@@ -26,7 +26,7 @@ final class Text
         if ($this->input_text instanceof Throwable) {
             $e = $this->input_text;
             $trace = $e->getTraceAsString();
-            return "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n$trace";
+            return "{$e->getMessage()} in {$e->getFile()} at line: {$e->getLine()}\n{$trace}";
         }
 
         if (\is_array($this->input_text) || \is_object($this->input_text)) {
@@ -53,11 +53,14 @@ final class Text
     {
         $trace = \debug_backtrace()[2];
 
-        if ((bool) \preg_match('!/logger\.php!', $trace['file'])) {
+        if (\preg_match('!/logger\.php!', $trace['file'] ?? '')) {
             $trace = \debug_backtrace()[3];
         }
 
-        return ">>> {$trace['file']} on line: {$trace['line']}" . PHP_EOL;
+        $line = $trace['line'] ?? '';
+        $file = $trace['file'] ?? '';
+
+        return ">>> {$file} on line: {$line}" . PHP_EOL;
     }
 
     public function getDateBlock(?bool $timestamp = null): string
