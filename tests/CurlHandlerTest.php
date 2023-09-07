@@ -13,8 +13,7 @@ use Serhii\TinyLogger\Text;
 
 class CurlHandlerTest extends TestCase
 {
-    /** @test */
-    public function makeRequest_method_makes_request_with_default_json(): void
+    public function testMakeRequestMethodMakesRequestWithDefaultJson(): void
     {
         $text = new Text('This is my error message');
         $option = new Option('error');
@@ -37,8 +36,8 @@ class CurlHandlerTest extends TestCase
         $curl_handler->makeRequest();
     }
 
-    /** @test */
-    public function makeRequest_method_makes_request_with_custom_json(): void
+
+    public function testMakeRequestMethodMakesRequestWithCustomJson(): void
     {
         $text = new Text('This is my error message');
         $option = new Option('error');
