@@ -7,10 +7,14 @@ cs:
 test:
 	./vendor/bin/phpunit --colors
 
+pint:
+	./vendor/bin/pint --test
+
 check:
 	make cs
 	make stan
 	make test
+	make pint
 
 push:
 	make check

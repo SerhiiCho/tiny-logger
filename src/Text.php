@@ -65,6 +65,6 @@ final class Text
 
     public function getDateBlock(?bool $timestamp = null): string
     {
-        return $timestamp ? (string) time() : '[' . \date('Y-m-d H:i:s') . ']';
+        return $timestamp ? (string) \time() : '[' . \date('Y-m-d H:i:s') . ']';
     }
 }

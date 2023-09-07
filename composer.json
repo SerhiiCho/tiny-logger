@@ -15,7 +15,8 @@
         "symfony/var-dumper": "^4.2",
         "phpstan/phpstan": "^1.8",
         "squizlabs/php_codesniffer": "^4.0",
-        "sandfoxme/private-access": "^1.3"
+        "sandfoxme/private-access": "^1.3",
+        "laravel/pint": "dev-main"
     },
     "license": "MIT",
     "authors": [

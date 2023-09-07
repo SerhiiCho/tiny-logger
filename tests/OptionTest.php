@@ -21,8 +21,8 @@ class OptionTest extends TestCase
         \file_exists($this->file_name) ? \unlink($this->file_name) : null;
     }
 
-    /** @test */
-    public function pos_option_adds_trace_line_to_log_file(): void
+
+    public function testPosOptionAddsTraceLineToLogFile(): void
     {
         Logger::new()->write('Nice text is here', 'pos|debug');
         $line_number = __LINE__ - 1;
@@ -33,8 +33,8 @@ class OptionTest extends TestCase
         $this->assertRegExp($regex, $log_file_content);
     }
 
-    /** @test */
-    public function if_pos_option_not_provided_trace_line_is_not_added(): void
+
+    public function testIfPosOptionNotProvidedTraceLineIsNotAdded(): void
     {
         Logger::new()->write('Nice text is here', 'debug');
         $line_number = __LINE__ - 1;
@@ -46,8 +46,8 @@ class OptionTest extends TestCase
         $this->assertNotRegExp('!>>>!', $log_file_content);
     }
 
-    /** @test */
-    public function pos_option_adds_trace_line_to_log_file_when_using_function(): void
+
+    public function testPosOptionAddsTraceLineToLogFileWhenUsingFunction(): void
     {
         tiny_log('Nice text is here', 'pos|debug');
         $line_number = __LINE__ - 1;
@@ -58,8 +58,8 @@ class OptionTest extends TestCase
         $this->assertRegExp($regex, $log_file_content);
     }
 
-    /** @test */
-    public function if_pos_option_not_provided_trace_line_is_not_added_when_using_function(): void
+
+    public function testIfPosOptionNotProvidedTraceLineIsNotAddedWhenUsingFunction(): void
     {
         tiny_log('Nice text is here', 'debug');
         $line_number = __LINE__ - 1;
@@ -71,8 +71,8 @@ class OptionTest extends TestCase
         $this->assertNotRegExp('!>>>!', $log_file_content);
     }
 
-    /** @test */
-    public function you_can_pass_option_without_error_type(): void
+
+    public function testYouCanPassOptionWithoutErrorType(): void
     {
         tiny_log('Nice text is here', 'pos');
         $line_number = __LINE__ - 1;

@@ -36,32 +36,32 @@ class LoggerTest extends TestCase
         \file_exists($file_path) ? \unlink($file_path) : null;
     }
 
-    /** @test */
-    public function write_method_creates_log_file(): void
+
+    public function testWriteMethodCreatesLogFile(): void
     {
         $this->assertFileNotExists($this->file_path);
         Logger::new()->write('Some log message goes here');
         $this->assertFileExists($this->file_path);
     }
 
-    /** @test */
-    public function setPath_changes_file_path(): void
+
+    public function testSetPathChangesFilePath(): void
     {
         Logger::setPath('different.log')->write('Some log message goes here');
         $this->assertFileExists('different.log');
         \file_exists('different.log') ? \unlink('different.log') : null;
     }
 
-    /** @test */
-    public function you_can_use_sprintf_syntax_int_insetPath_method(): void
+
+    public function testYouCanUseSprintfSyntaxIntInsetPathMethod(): void
     {
         Logger::setPath('%serent%s', 'diff', '.log')->write('Some log message goes here');
         $this->assertFileExists('different.log');
         \file_exists('different.log') ? \unlink('different.log') : null;
     }
 
-    /** @test */
-    public function write_method_writes_given_text_to_a_log_file(): void
+
+    public function testWriteMethodWritesGivenTextToALogFile(): void
     {
         Logger::new()->write('Nice text is here');
         Logger::new()->write(null);
@@ -70,16 +70,16 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString('null', $log_file_content);
     }
 
-    /** @test */
-    public function write_method_writes_given_text_to_a_log_file_with_different_type(): void
+
+    public function testWriteMethodWritesGivenTextToALogFileWithDifferentType(): void
     {
         Logger::new()->write('Nice text is here', 'debug');
         $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('] debug: Nice text is here', $log_file_content);
     }
 
-    /** @test */
-    public function write_method_can_except_array(): void
+
+    public function testWriteMethodCanExceptArray(): void
     {
         $array = ['hello' => 'world'];
         Logger::new()->write($array, 'info');
@@ -90,8 +90,8 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString($json, $log_file_content);
     }
 
-    /** @test */
-    public function write_method_can_except_object(): void
+
+    public function testWriteMethodCanExceptObject(): void
     {
         $obj = (object) ['hello' => 'world'];
         Logger::new()->write($obj, 'info');
@@ -102,16 +102,16 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString($json, $log_file_content);
     }
 
-    /** @test */
-    public function function_creates_log_file(): void
+
+    public function testFunctionCreatesLogFile(): void
     {
         $this->assertFileNotExists($this->file_path);
         tiny_log('Some log message goes here');
         $this->assertFileExists($this->file_path);
     }
 
-    /** @test */
-    public function Logger_has_method_helpers(): void
+
+    public function testLoggerHasMethodHelpers(): void
     {
         $this->assertFileNotExists($this->file_path);
         Logger::new()->error('Some log message goes here');
@@ -129,8 +129,8 @@ class LoggerTest extends TestCase
         $this->assertTrue(method_exists($instance, 'debug'));
     }
 
-    /** @test */
-    public function write_method_can_except_exception(): void
+
+    public function testWriteMethodCanExceptException(): void
     {
         try {
             throw new Exception('This is an exception');
@@ -143,8 +143,8 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString('This is an exception', $log_file_content);
     }
 
-    /** @test */
-    public function write_method_can_except_error(): void
+
+    public function testWriteMethodCanExceptError(): void
     {
         try {
             throw new Error('This is an error');
@@ -157,8 +157,8 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString('This is an error', $log_file_content);
     }
 
-    /** @test */
-    public function write_method_can_except_parse_error(): void
+
+    public function testWriteMethodCanExceptParseError(): void
     {
         try {
             throw new ParseError('This is a parse error');
@@ -169,8 +169,8 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString('This is a parse error', \file_get_contents($this->file_path));
     }
 
-    /** @test */
-    public function write_method_can_except_type_error(): void
+
+    public function testWriteMethodCanExceptTypeError(): void
     {
         try {
             throw new TypeError('This is a type error');
@@ -181,31 +181,31 @@ class LoggerTest extends TestCase
         $this->assertStringContainsString('This is a type error', \file_get_contents($this->file_path));
     }
 
-    /** @test */
-    public function write_method_can_except_boolean_true(): void
+
+    public function testWriteMethodCanExceptBooleanTrue(): void
     {
         Logger::new()->write(true, 'info');
         $this->assertStringContainsString('true', \file_get_contents($this->file_path));
     }
 
-    /** @test */
-    public function write_method_can_except_boolean_false(): void
+
+    public function testWriteMethodCanExceptBooleanFalse(): void
     {
         Logger::new()->write(false, 'info');
         $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('false', $log_file_content);
     }
 
-    /** @test */
-    public function write_method_can_except_null(): void
+
+    public function testWriteMethodCanExceptNull(): void
     {
         Logger::new()->write(null, 'info');
         $log_file_content = \file_get_contents($this->file_path);
         $this->assertStringContainsString('null', $log_file_content);
     }
 
-    /** @test */
-    public function makePostRequestIfOptionIsEnabled_makes_request_if_option_is_enabled(): void
+
+    public function testMakePostRequestIfOptionIsEnabledMakesRequestIfOptionIsEnabled(): void
     {
         $text = new Text('Error message');
         $option = new Option('info');
@@ -220,8 +220,8 @@ class LoggerTest extends TestCase
         call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
 
-    /** @test */
-    public function makePostRequestIfOptionIsEnabled_doesnt_make_request_if_option_is_not_enabled(): void
+
+    public function testMakePostRequestIfOptionIsEnabledDoesntMakeRequestIfOptionIsNotEnabled(): void
     {
         $text = new Text('My error message');
         $option = new Option('error');
@@ -234,8 +234,8 @@ class LoggerTest extends TestCase
         call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
 
-    /** @test */
-    public function disablePostRequest_disables_post_request_after_option_has_been_enabled_enabled(): void
+
+    public function testDisablePostRequestDisablesPostRequestAfterOptionHasBeenEnabledEnabled(): void
     {
         $text = new Text('Some error message');
         $option = new Option('debug');
@@ -250,9 +250,9 @@ class LoggerTest extends TestCase
 
         call_private_method(Logger::new(), 'makePostRequestIfOptionIsEnabled', $text, $option, $curl);
     }
-    
-    /** @test */
-    public function you_can_pass_file_path_as_the_third_argument_in_function_and_it_will_not_change_global_file_path(): void
+
+
+    public function testYouCanPassFilePathAsTheThirdArgumentInFunctionAndItWillNotChangeGlobalFilePath(): void
     {
         $file_path = 'nice.log';
 
@@ -262,8 +262,8 @@ class LoggerTest extends TestCase
         $this->removeFile($file_path);
     }
 
-    /** @test */
-    public function you_can_pass_file_path_as_the_third_argument_in_write_method_and_it_will_not_change_global_file_path(): void
+
+    public function testYouCanPassFilePathAsTheThirdArgumentInWriteMethodAndItWillNotChangeGlobalFilePath(): void
     {
         $file_path = 'nice.log';
 
@@ -273,8 +273,8 @@ class LoggerTest extends TestCase
         $this->removeFile($file_path);
     }
 
-    /** @test */
-    public function getPath_method_returns_file_path(): void
+
+    public function testGetPathMethodReturnsFilePath(): void
     {
         $this->assertSame($this->file_path, Logger::getPath());
     }
