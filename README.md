@@ -21,6 +21,16 @@ Logger::setPath('logs/%s.log', 'errors'); // sprintf format
 
 > NOTE: If you want to use logger in a cron scripts or something like WordPress hook, you need to call `setPath()` at the very first step of the script execution, it means that your project might have multiple places where you need to set path for your logs. If you don't want to call `setPath()` you can just pass the path to a `tiny_log()` function as a third argument. _See an example in the Usage section._
 
+## Supported PHP versions
+
+- ✅ 7.2
+- ✅ 7.3
+- ✅ 7.4
+- ✅ 8.0
+- ✅ 8.1
+- ✅ 8.2
+- ✅ 8.3
+
 ## Usage
 
 This package comes with a function `tiny_log()` where second and third arguments are not required.
